@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html ng-app="phoneLocator" dir="rtl">
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>איתורפון</title>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-animate/angular-animate.js"></script>
+    <script src="lib/angular-aria/angular-aria.js"></script>
+    <script src="lib/angular-material/angular-material.js"></script>
+    <script src="app/index.js"></script>
+    <link rel="stylesheet" href="lib/angular-material/angular-material.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body ng-controller="FinderCtrl">
+ <div class="everything-wrapper">
+	<div layout="row" layout-align="center" class="input-wrapper">
+		<form name="phoneForm" ng-submit="submitQuery()">
+			<div class="main-input-label">חיפוש:</div>
+			<input type="text"
+				ng-change="onTextChange()"
+				ng-trim="false"
+				ng-model="query"
+				class="main-input"
+				placeholder="{{'שם, תפקיד, יחידה...'}}"
+				autofocus></input>
+			<div class="help-button-wrapper">
+				<div class="help-button">?</div>
+				<div class="help-floater">
+					<div>ניתן לחפש לפי כל מיני נתונים כגון:</div>
+					<ul>
+						<li>שם
+						<li>תפקיד
+						<li>מספר טלפון
+						<li>יחידה
+						<li>דרגה
+					</ul>
+					<div>אפשר גם שילובים שונים:</div>
+					<ul>
+						<li><i>עומר חדשנות</i>
+						<li><i>גל אופק</i>
+						<li><i>בחא 8 סגן</i>
+					</ul>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="mailing-list">
+		<div ng-if="peopleToEmail.length" class="mailing-list-title">רשימת תפוצה</div>
+		<div ng-repeat="person in peopleToEmail track by $index">
+			<div class="person-to-email">
+				{{person.name}}
+				<div class="remove-from-email-list" ng-click="unpin(person)">X</div>
+			</div>
+		</div>
+    	<button ng-if="peopleToEmail!=0" ng-click="sendMailToPeople(peopleToEmail)">שלח מייל</button>
+    	<button ng-if="peopleToEmail!=0" ng-click="clearPinned()">נקה</button>
+    </div>
+	<div>
+	    <h3 ng-if="appState == AppStates.NOT_ENOUGH_CHARACTERS" class="header">נא להקליד יותר תווים</h3>
+		<div ng-if="appState == AppStates.SHOW_PEOPLE">
+		  <div class="metanote">
+			  <span ng-switch on="people.length">
+			  	  <span ng-switch-when="0">לא נמצאו רישומים לשאילתה</span>
+			  	  <span ng-switch-when="1">תוצאה אחת עבור </span>
+			  	  <span ng-switch-default>
+			  	  	{{people.length}} תוצאות 
+			  	  	<span ng-if="metadata.shouldShowSeeMore">הראשונות </span>
+			  	  	עבור 
+		  	  	  </span>
+			  "<b>{{metadata.query}}</b>"
+			  </span>
+		  </div>
+		  <md-list ng-repeat="person in people">
+			<div class="pin-wrapper"
+				  title="הוסף לתפוצה"
+				  ng-click="togglePinPerson(person)"
+				  ng-if="person.mail">
+	  			<img src="/mailing_list.png" class="pin">
+  			</div>
+	        <md-list-item class="list-wrapper">
+	        <div layout="column" style="width:100%">
+	        <div flex>
+	        	<div layout="row">
+		  			<div class="birthday" ng-if="person.is_birthday_today">
+		  				יום הולדת שמח!
+		  			</div>
+	        		<div ng-flex="{'25':person.showMore,'10':!person.showMore}">
+				  		<div class="thumbnail-wrapper" ng-click="onMorePressed(person);">
+				            <img ng-if="person.bottom_row.length && person.showMore"
+				            	class="more-less"
+				            	src="/plus.png"
+				            	title="הרחב">
+				            <img ng-if="person.bottom_row.length && !person.showMore"
+				            	class="more-less"
+				            	src="/minus.png"
+				            	title="צמצם">
+				  			
+				  			<!--TODO(Ed): Add back big-thumbnail -->
+				  			<img ng-if="person.picture" class="thumbnail"
+			  					ng-src="data:image/png;base64,{{person.picture}}">
+				  			<img ng-if="!person.picture" class="thumbnail" src="/person.png">
+				  		</div>
+			  		</div>
+			  		<div flex>
+			  			<div layout="column">
+				  			<div flex layout="row" style="height: 60px;">
+					  			<div ng-repeat="field in person.top_row" ng-flex="{'15' : field.name=='נייד'}" class="top-row">
+						            <md-input-container>
+						                <label>{{field.name}}</label>
+						                <input ng-model="field.value" readonly />
+						            </md-input-container>
+					        	</div>
+					        	<div flex="15">
+						        	<div class="email">
+							            <img src="/lib/mail.png"
+							            	ng-if="person.mail"
+							            	ng-click="sendEmail(person.mail)"
+							            	title="שלח מייל">
+							        </div>
+						  		</div>
+					  		</div>
+				            <div flex ng-hide="!person.showMore" class="slideDown">
+			            		<div ng-class="expand-collapse-content" class="extra-list-wrapper">
+					            	<ul class="bottom-row-list">
+						            	<li ng-repeat="field in person.bottom_row" ng-if="field.value" class="bottom-row-field">
+							                <div class="bottom-row-field-name">{{field.name}}</div>
+							                <div>{{field.value}}</div>
+						                </li>
+					            	</ul>
+
+					  				 <div ng-if="person.what_i_do || canEditWhatDoIDo(person)">
+					  				 	<div class="bottom-row-field what-i-do">
+						                	<div class="bottom-row-field-name">מה אני עושה בכמה מילים</div>
+						                	
+						                	<div ng-if="!person.editing_what_i_do" >{{person.what_i_do}}</div>
+						                	<form  ng-submit="setWhatIDoMessage(person)">
+						                		<input ng-if="person.editing_what_i_do"
+						                		    type="text"
+						                			ng-model="person.whatIDoToAdd">
+						                	</form>
+						                	
+						                	<div ng-if="canEditWhatDoIDo(person) && !person.editing_what_i_do"
+						                		 class="change-what-i-do"
+						                		 ng-click="person.editing_what_i_do = true;
+						                		 		   person.whatIDoToAdd = person.what_i_do">
+						                		{{person.what_i_do ? 'ערוך' : 'הוסף'}}
+						                	</div>
+						                	<div ng-if="person.editing_what_i_do">
+						                		<div class="change-what-i-do"
+						                			 style="float: right"
+						                			 ng-click="setWhatIDoMessage(person)">
+						                			שלח
+						                		</div>
+						                		<div class="change-what-i-do"
+						                			 style="float: left"
+						                			 ng-click="person.editing_what_i_do = false;">
+						                			בטל
+						                		</div>
+						                	</div>
+						                </div>
+					  				 </div>
+
+					                <div ng-if="person.tags">
+					                	<div class="tag-wrapper"
+					                		 ng-repeat="tag in person.tags"
+					                	     ng-if="tag.tag">
+					                	     <div class="tag-name"
+					                	     	ng-attr-title="{{'חפש #' + tag.tag}}"
+					                		 	ng-click="searchForTag(tag.tag)">
+					                			<span>{{tag.tag}}</span>
+					                		</div>
+					                		<div ng-hide="!canDeleteTag(person, tag)"
+					                			 class="exit-tag"
+					                			 ng-click="deleteTagForPerson(person, tag)">x</div>
+						  				</div>
+						  			</div>
+
+						  			<div class="tag-adder"
+						  				 ng-if="canAddTags(person) && !person.hide_show_more_tags"
+						  				 title="הסף תג על עצמך"
+						  				 ng-click="getTagsForPerson(person)">+</div>
+					  				 <select ng-if="person.tagOptions && person.tagOptions.length"
+					  				 		 ng-model="person.newSelectedTag"
+				  				 			 ng-change="tagDropdownSelected(person)">
+								 		    <option selected value="">בחר תג...</option>
+					  				 	<option ng-repeat="tagOption in person.tagOptions"
+					  				 			value="{{tagOption}}">{{tagOption}}</option>
+					  				 </select>
+			                	</div>
+			                </div>
+				  		</div>
+			  		</div>
+		  		</div>
+		  	</div>
+		  	</div>
+	        </md-list-item>
+		  </md-list>
+		  <div ng-if="showSendMailToAllButton()" style="text-align: center">
+		  	<div class="send-everyone" ng-click="sendMailToPeople(people)">לשלוח מייל לכל הרשימה</div>
+		  </div>
+		  <div ng-if="metadata.shouldShowSeeMore"
+		  	   class="see-more"
+		  	   ng-click="submitQuery(true)">
+		  	   להציג את כולם (עלול להיות איטי)
+		  </div>
+		</div>
+		<div ng-if="appState == AppStates.LOADING"><div class="spinner"></div></div>
+	    <h3 ng-if="appState == AppStates.ERROR" class="header">משהו לא תקין קרה...נא ליצור קשר עם שון דיננברג 0369-7820</h3>
+	</div>
+
+	<div ng-hide="!isAdmin">
+		<div class="admin-add-more-tags">
+			 הוסף עוד תגים (לאדמינים בלבד)
+		</div>
+		<div >
+            <form name="phoneForm" ng-submit="submitTag()">
+            	<span>לאפשר לכולם לתייג את עצמם</span>
+            	<input type="checkbox" ng-model="tagToAddIsForAnyone">
+            	<div>
+					<input type="text"  ng-model="tagToAdd">
+				</div>
+            </form>
+		</div>
+		<div>{{tagAddedMessage}}</div>
+	</div>
+</div>
+</body>
+</html>
