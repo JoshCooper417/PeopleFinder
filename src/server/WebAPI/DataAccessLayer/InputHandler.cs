@@ -72,6 +72,7 @@ namespace WebAPI.DataAccessLayer
                 .ToList();
         }
 
+
         private object createMetadataObject(ITemplate template,
             IEnumerable<object> persons,
             DbRequest dbRequest)
