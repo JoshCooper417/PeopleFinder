@@ -5,7 +5,7 @@
 //var SERVER = 'http://app0111laka01.iaf/PplFndr/api/values/';
 var SERVER = 'http://localhost:34781/api/values/';
 
-angular.module('phoneLocator',['ngMaterial']);
+angular.module('phoneLocator',['ngMaterial', 'ngAnimate', 'ngAria']);
 
 angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneService, httpExtension) {
     var MINIMUM_QUERY_LENGTH = 3;
@@ -136,8 +136,25 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
                 chrome.tabs.remove(tab.id);
             }, 500);
         });
+		//sendEmail(email);
      };
 
+	 /*function sendEmail(email){
+  try{
+    var theApp = new ActiveXObject("Outlook.Application");
+    var objNS = theApp.GetNameSpace('MAPI');
+    var theMailItem = theApp.CreateItem(0); // value 0 = MailItem
+    theMailItem.to = email;
+    //theMailItem.Subject = ('test');
+    //theMailItem.Body = ('test');
+    //theMailItem.Attachments.Add("C\\file.txt");
+    theMailItem.display();
+   }
+    catch (err) {
+       alert(err.message);
+    } 
+}*/
+	 
      $scope.sendMailToPeople = function(persons) {
         var emails = '';
         for (var i = 0; i < persons.length; i++) {
@@ -396,3 +413,45 @@ var PROBLEMATIC_CHARACTERS = ['.', '+', ':', '%'];
 var SESSION_ID = Date.now() + Math.random();
 
 var MAX_NUMBER_OF_EMAILS_IN_URL = 100;
+
+/*hackathon adding*/
+angular.module("phoneLocator").controller("menuPopupCtrl", function($scope) {
+	this.isOpen = false;
+	this.mode = 'md-fling';
+	this.direction = 'left';
+	
+	$scope.sendEmail = function(email) {
+        var emailUrl = 'mailto:' + email;
+        chrome.tabs.create({ url: emailUrl, active: false }, function (tab) {
+            setTimeout(function() {
+                chrome.tabs.remove(tab.id);
+            }, 500);
+        });
+		//sendEmail(email);
+     };
+	
+	$scope.skypeChat = function(userName) {
+		var user = 'itay.fichman';
+		var userTemp = "s" + userName;
+        var skypeUrl = 'skype:' + user + "?chat";
+        chrome.tabs.create({ url: skypeUrl, active: false }, function (tab) {
+            setTimeout(function() {
+                chrome.tabs.remove(tab.id);
+            }, 500);
+        });
+     };
+	 
+	 $scope.skypeCall = function(userName) {
+		var user = 'itay.fichman';
+		var userTemp = "s" + userName;
+        var skypeUrl = 'skype:' + user + "?call";
+        chrome.tabs.create({ url: skypeUrl, active: false }, function (tab) {
+            setTimeout(function() {
+                chrome.tabs.remove(tab.id);
+            }, 500);
+        });
+     };
+	 
+	
+});
+/*hackathon adding*/

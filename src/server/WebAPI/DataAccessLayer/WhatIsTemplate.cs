@@ -50,5 +50,12 @@ namespace WebAPI.DataAccessLayer
             return lookupValue;
         }
 
+        public object AddMetadata()
+        {
+            return new
+            {
+                query = lookupValue
+            };
+        }
     }
 }

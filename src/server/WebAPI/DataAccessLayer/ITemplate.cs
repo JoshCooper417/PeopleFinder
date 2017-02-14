@@ -15,6 +15,8 @@ namespace WebAPI.DataAccessLayer
 
         List<PersonJsonWrapper> ProcessPersonJsons(List<PersonJsonWrapper> personJsons);
 
-        string MetdataDisplayValue();
+        //string MetdataDisplayValue();
+
+        object AddMetadata();
     }
 }

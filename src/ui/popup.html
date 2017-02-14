@@ -74,7 +74,7 @@
 			  </span>
 		  </div>
 		  <md-list ng-repeat="person in people">
-			<div class="pin-wrapper"
+			<div class="pin-wrapper remove-outline"
 				  title="הוסף לתפוצה"
 				  ng-click="togglePinPerson(person)"
 				  ng-if="person.mail">
@@ -113,14 +113,52 @@
 						                <input ng-model="field.value" readonly />
 						            </md-input-container>
 					        	</div>
-					        	<div flex="15">
+					        	<!--<div flex="15">
 						        	<div class="email">
 							            <img src="/lib/mail.png"
 							            	ng-if="person.mail"
 							            	ng-click="sendEmail(person.mail)"
 							            	title="שלח מייל">
 							        </div>
-						  		</div>
+						  		</div> -->
+								
+								<!-- hackathon adding -->
+								<!--<div flex="15">
+						        	<div class="skype">
+									<a href="skype:itay.fichman;?chat">
+									<img src="/lib/skype.png"
+							            	ng-if="person.mail"
+							            	ng-click="sendEmail(person.mail)"
+							            	title="פתח צ'אט">
+									</a>
+							        </div>
+						  		</div>-->
+								
+								<div layout="column" ng-cloak class="menuPopup">
+										<div class="lock-size" layout="row" layout-align="center center" ng-controller="menuPopupCtrl as demo">
+											<md-fab-speed-dial md-open="demo.isOpen" md-direction="{{demo.direction}}" ng-class="demo.mode">
+												<md-fab-trigger>
+													<md-button aria-label="menu" class="md-fab md-primary">
+														<md-icon md-svg-src="/lib/menu.svg" class="menuPopupIcons"></md-icon>
+													</md-button>
+												</md-fab-trigger>
+												
+												<md-fab-actions>
+													<md-button aria-label="Mail" class="md-fab md-raised md-mini" ng-click="sendEmail(person.mail)">
+														<md-icon md-svg-src="/lib/envelope.svg" title="שלח מייל"></md-icon>
+													</md-button>
+													<md-button aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeChat(person.mispar_ishi)">
+															<md-icon md-svg-src="/lib/skype.svg" title="התחל צ'אט בסקייפ"></md-icon>
+													</md-button>
+													<md-button aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeCall(person.mispar_ishi)">
+															<md-icon md-svg-src="/lib/phone-receiver.svg" title="התחל שיחה בסקייפ"></md-icon>
+													</md-button>
+												</md-fab-actions>
+												
+											</md-fab-speed-dial>
+										</div>
+								</div>
+								<!-- hackathon adding -->
 					  		</div>
 				            <div flex ng-hide="!person.showMore" class="slideDown">
 			            		<div ng-class="expand-collapse-content" class="extra-list-wrapper">
