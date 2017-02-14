@@ -19,7 +19,7 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
     });
 
     $scope.peopleToEmail = [];
-    
+
     $scope.AppStates = {
         DEFAULT: 0,
         SHOW_PEOPLE: 1,
@@ -73,7 +73,7 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
         if (opt_forceNewRequest) {
             logRequest(LOG_TYPES.SEE_ALL_PRESSED);
         }
-        
+
         // We also cancel the previous timeout every time we make a query as an added safety
         // mechanism (e.g., if the user presses enter to send a request).
         clearSendQueryTimeout();
@@ -121,10 +121,10 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
                 return false;
             }
         }
-        return true;        
+        return true;
      }
 
-     
+
      // If the user taps on an email address field, close the extension and redirect to an email URL.
      $scope.sendEmail = function(email) {
         logRequest(LOG_TYPES.MAIL);
