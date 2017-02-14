@@ -14,7 +14,7 @@
 </head>
 
 <body ng-controller="FinderCtrl">
- <div class="everything-wrapper" ng-if="!isInBotMode">
+ <div class="everything-wrapper" ng-hide="isInBotMode">
 	<div layout="row" layout-align="center" class="input-wrapper">
 		<form name="phoneForm" ng-submit="submitQuery()">
 			<div class="main-input-label">חיפוש:</div>
@@ -229,7 +229,7 @@
 		<div>{{tagAddedMessage}}</div>
 	</div>
 </div>
-<div ng-if="isInBotMode">
+<div ng-hide="!isInBotMode">
 	BOT MODE
 	<div ng-click="isInBotMode = false">EXIT</div>
 </div>
