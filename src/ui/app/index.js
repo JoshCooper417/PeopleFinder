@@ -17,6 +17,8 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
         else
             window.phoneLocatorScope.peopleToEmail = [];
     });
+	
+	$scope.isInBotMode = false;
 
     $scope.peopleToEmail = [];
 

@@ -14,7 +14,7 @@
 </head>
 
 <body ng-controller="FinderCtrl">
- <div class="everything-wrapper">
+ <div class="everything-wrapper" ng-hide="isInBotMode">
 	<div layout="row" layout-align="center" class="input-wrapper">
 		<form name="phoneForm" ng-submit="submitQuery()">
 			<div class="main-input-label">חיפוש:</div>
@@ -210,6 +210,8 @@
 		<div ng-if="appState == AppStates.LOADING"><div class="spinner"></div></div>
 	    <h3 ng-if="appState == AppStates.ERROR" class="header">משהו לא תקין קרה...נא ליצור קשר עם שון דיננברג 0369-7820</h3>
 	</div>
+	<div  ng-click="isInBotMode = true">GET HELP FROM BOT</div>
+	
 
 	<div ng-hide="!isAdmin">
 		<div class="admin-add-more-tags">
@@ -226,6 +228,10 @@
 		</div>
 		<div>{{tagAddedMessage}}</div>
 	</div>
+</div>
+<div ng-hide="!isInBotMode">
+	BOT MODE
+	<div ng-click="isInBotMode = false">EXIT</div>
 </div>
 </body>
 </html>
