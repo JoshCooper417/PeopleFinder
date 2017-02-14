@@ -86,7 +86,6 @@ namespace PeopleDbFiller
                     });
                 });
             });
-            while (true) { }
         }
     }
     class DebugWriter : System.IO.TextWriter

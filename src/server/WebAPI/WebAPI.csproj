@@ -133,9 +133,13 @@
     <Compile Include="DataAccessLayer\DbReader.cs" />
     <Compile Include="DataAccessLayer\DbRequest.cs" />
     <Compile Include="DataAccessLayer\DebugWriter.cs" />
+    <Compile Include="DataAccessLayer\ITemplate.cs" />
+    <Compile Include="DataAccessLayer\ParamsOnlyTemplate.cs" />
     <Compile Include="DataAccessLayer\TagAdder.cs" />
     <Compile Include="DataAccessLayer\TagGetter.cs" />
     <Compile Include="DataAccessLayer\TagToPrimeDictionary.cs" />
+    <Compile Include="DataAccessLayer\Templates.cs" />
+    <Compile Include="DataAccessLayer\WhatIsTemplate.cs" />
     <Compile Include="DataAccessLayer\TermExtractions.cs" />
     <Compile Include="DataAccessLayer\InputCleaner.cs" />
     <Compile Include="DataAccessLayer\PersonJsonWrapper.cs" />
