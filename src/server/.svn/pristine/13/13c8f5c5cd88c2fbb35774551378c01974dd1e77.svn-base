@@ -1,0 +1,118 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Linq;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class DbReader
+    {
+        // Retrieves the matching people form the Database and wraps each one in a
+        // PersonFromDbWrapper object.
+        // Query the DB for matching persons. The current algorithm is to select
+        // every person for whom every distinct word that is searched appears in
+        // at least one field in their row.
+        // Then post-process the list to generate JSON that the client knows how
+        // to receive.
+        public static IEnumerable<PersonFromDbWrapper> GetPersonsFromDb(
+            DbRequest dbRequest)
+        {
+            var dataContext = new PersonDataContext();
+            dataContext.Log = new DebugWriter(); // Toggle comment to log SQL.
+
+            return search(dbRequest, dataContext);
+        }
+
+        private static IEnumerable<PersonFromDbWrapper> search(
+            DbRequest dbRequest,
+            PersonDataContext dataContext)
+        {
+            var query = dataContext.Persons
+                .Where(person => person.Tags % dbRequest.Tags == 0);
+            if (dbRequest.StandardInputValues.Count != 0)
+            {
+                query = query.WhereMatches(dbRequest);
+            }
+            // Note that WhereMatches is defined in WhereMatchesQuery.cs.
+            return query
+                .Take(dbRequest.NumberToTake)
+                .Select(person => new PersonFromDbWrapper(
+                        person.MisparIshi,
+                        person.GivenName,
+                        person.Surname,
+                        person.Mail,
+                        person.Mobile,
+                        person.JobTitle,
+                        person.WorkPhone,
+                        person.OtherTelephone,
+                        person.Fax,
+                        person.HomeTelephone,
+                        person.LongWorkTitle,
+                        person.Picture,
+                        person.BirthdayDisplayString,
+                        person.Darga,
+                        person.Sex,
+                        person.Tags))
+                    .ToList();
+        }
+    }
+
+    // Wraps a subset of fields from the DB person object.
+    public class PersonFromDbWrapper
+    {
+        public string MisparIshi { get; set; }
+        public string GivenName { get; set; }
+        public string Surname { get; set; }
+        public string Mail { get; set; }
+        public string Mobile { get; set; }
+        public string JobTitle { get; set; }
+        public string WorkPhone { get; set; }
+        public string OtherTelephone { get; set; }
+        public string Fax { get; set; }
+        public string HomePhone { get; set; }
+        public string LongWorkTitle { get; set; }
+        public Binary Picture { get; set; }
+        public string BirthdayDisplayString { get; set; }
+        public string Darga { get; set; }
+        public string Sex { get; set; }
+        public long Tags { get; set; }
+
+        public PersonFromDbWrapper(
+            string MisparIshi,
+            string GivenName,
+            string Surname,
+            string Mail,
+            string Mobile,
+            string JobTitle,
+            string WorkPhone,
+            string OtherTelephone,
+            string Fax,
+            string HomePhone,
+            string LongWorkTitle,
+            Binary Picture,
+            string BirthdayDisplayString,
+            string Darga,
+            string Sex,
+            long Tags)
+        {
+            this.MisparIshi = MisparIshi;
+            this.GivenName = GivenName;
+            this.Surname = Surname;
+            this.Mail = Mail;
+            this.Mobile = Mobile;
+            this.JobTitle = JobTitle;
+            this.WorkPhone = WorkPhone;
+            this.OtherTelephone = OtherTelephone;
+            this.Fax = Fax;
+            this.HomePhone = HomePhone;
+            this.LongWorkTitle = LongWorkTitle;
+            this.Picture = Picture;
+            this.BirthdayDisplayString = BirthdayDisplayString;
+            this.Darga = Darga;
+            this.Tags = Tags;
+        }
+    }
+}

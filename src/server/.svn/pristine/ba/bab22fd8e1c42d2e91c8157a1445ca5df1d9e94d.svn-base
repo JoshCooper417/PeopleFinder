@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class WhatIDoAdder
+    {
+        public static void AddWhatIDo(string misparIshi, string value)
+        {
+            var personAndText = new PersonAndText(misparIshi, value);
+            if (!personAndText.isValid
+                || !CurrentMisparIshi.IsCurrentUserOrAdmin(
+                        personAndText.personFromDb.MisparIshi))
+            {
+                return;
+            }
+
+            personAndText.personFromDb.WhatIDo =
+                personAndText.text;
+            personAndText.submitChanges();
+        }
+    }
+
+    
+}

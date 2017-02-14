@@ -1,0 +1,17 @@
+{
+	"manifest_version": 2,
+	"name": "מצאיש\\ה",
+	"description": "Find people",
+	"version": "1.0",
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_popup": "popup.html"
+	},
+	"permissions": [
+		"http://phonelocator.app.airnet/",
+		"http://app0111laka01.iaf/",
+		"http://localhost:34781/api/values/",
+		"tabs"
+	],
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Person">
+  <DataContextMoniker Name="/PersonDataContext" />
+  <nestedChildShapes>
+    <classShape Id="82a4c18b-1c4d-4cdd-88f5-346afa07f161" absoluteBounds="1, 1, 2, 4.8477197265625">
+      <DataClassMoniker Name="/PersonDataContext/PersonReal" />
+      <nestedChildShapes>
+        <elementListCompartment Id="91e033f3-3c0e-4235-9110-8a2e1916a5cb" absoluteBounds="1.0150000000000001, 1.46, 1.9700000000000002, 4.2877197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="fd48cd7f-3ff8-4aa2-bfc7-4f8f2bd4f2d1" absoluteBounds="3.125, 0.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/PersonDataContext/Tag" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a0c21acb-6936-488d-a2ae-bef55582eef0" absoluteBounds="3.14, 0.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3 : 1.34699625651042); (3.125 : 1.34699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PersonDataContext/PersonReal/Person_Tag" />
+      <nodes>
+        <classShapeMoniker Id="82a4c18b-1c4d-4cdd-88f5-346afa07f161" />
+        <classShapeMoniker Id="fd48cd7f-3ff8-4aa2-bfc7-4f8f2bd4f2d1" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="50cd0c7e-5511-444a-a6e4-647300d1edf0" absoluteBounds="2.625, 6.25, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/PersonDataContext/TagPrime" />
+      <nestedChildShapes>
+        <elementListCompartment Id="eca269fb-524f-45cc-bc02-a1b58fa16d5c" absoluteBounds="2.64, 6.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9b3c17a3-425b-4fcf-9b1a-cd5c18c9f830" absoluteBounds="5.125, 1.25, 2, 5.2323225911458326">
+      <DataClassMoniker Name="/PersonDataContext/Person" />
+      <nestedChildShapes>
+        <elementListCompartment Id="17400e2d-d3d7-4f89-b9a3-e3fa937ab6a5" absoluteBounds="5.14, 1.71, 1.9700000000000002, 4.672322591145833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

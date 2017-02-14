@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    // Some LinqToSQL magic that lets us query the given fields for an entry
+    // for each string in values.
+    public static class WhereMatchesQuery
+    {
+        // The following three fields are lists of functions to be applied to a
+        // person to see if query terms match their entry. For each string in the
+        // input query, we need to check if it is a substring or full match of
+        // one of the fields for a given person.
+        // We split it up into different types of fields so we can decide dynamically
+        // which ones to search and so we can search them in different ways (e.g.,
+        // GivenName we search for full matches only so that "עומר" won't trigger
+        // "עומרי" but for JobTitle we allow substrings so that "בחא" will trigger
+        // "בחא 8".
+
+        // TODO(Josh): Person.Location seems to be low-quality so research it more
+        // and consider adding it to this list.
+        private static Expression<Func<Person, string>>[] STRING_PARTIAL =
+            new Expression<Func<Person, string>>[] {
+                person => person.JobTitleSearchable,
+                person => person.LongWorkTitleSearchable,
+                person => person.AlternateNameSearchable,
+                person => person.DepartmentSearchable,
+                person => person.CompanySearchable
+            };
+
+        private static Expression<Func<Person, string>>[] STRING_FULL_MATCH =
+            new Expression<Func<Person, string>>[] {
+                person => person.GivenName,
+                person => person.Darga
+            };
+
+        private static Expression<Func<Person, string>>[] STRING_STARTS_WITH =
+            new Expression<Func<Person, string>>[] {
+                person => person.Surname
+            };
+
+        private static Expression<Func<Person, string>>[] NUMBER_PARTIAL =
+            new Expression<Func<Person, string>>[] {
+                person => person.MisparIshi,
+                person => person.Mobile,
+                person => person.WorkPhone,
+                person => person.OtherTelephone
+            };
+
+        private static MethodInfo STRING_EQUALS_METHOD =
+            typeof(string).GetMethod("Equals", new[] { typeof(string) });
+
+        private static Expression<Func<Person, string>> BIRTHDAY_STRING =
+            person => person.BirthdayDisplayString;
+
+        public static IQueryable<T> WhereMatches<T>(
+            this IQueryable<T> source,
+            DbRequest dbRequest)
+        {
+            var parameter = Expression.Parameter(typeof(T), "r");
+            var body = dbRequest.IsOnlyNumbers ?
+                getExpressionForNumbers<T>(dbRequest, parameter)
+                : getExpressionForStrings<T>(dbRequest, parameter);
+            var predicate = Expression.Lambda<Func<T, bool>>(body, parameter);
+            return source.Where(predicate);
+        }
+
+        private static Expression getExpressionForStrings<T>(
+            DbRequest dbRequest, ParameterExpression parameter)
+        {
+            var birthday = getTodayBirthdayString();
+            return dbRequest.StandardInputValues
+                .Select(value =>
+                {
+                    if (value.Equals(TermExtractions.BIRTHDAY))
+                    {
+                        var today = getTodayBirthdayString();
+                        return BIRTHDAY_STRING.ToExpression<T>(
+                            STRING_EQUALS_METHOD, today, parameter);
+                    }
+
+                    // For the partial match strings, we search without quotation marks.
+                    var valueForPartialStrings = value.Replace("\"", "");
+                    var partialMatches = STRING_PARTIAL.Select(member =>
+                        member.ToExpression<T>(
+                            "Contains", valueForPartialStrings, parameter));
+
+                    var startsWithMatches = STRING_STARTS_WITH
+                        .Select(member => member.ToExpression<T>(
+                            "StartsWith", value, parameter));
+
+                    var fullMatches = STRING_FULL_MATCH.Select(
+                        member => member.ToExpression<T>(
+                            STRING_EQUALS_METHOD, value, parameter));
+
+                    return partialMatches.Union(startsWithMatches)
+                        .Union(fullMatches).Aggregate(Expression.OrElse);
+                }).Aggregate(Expression.AndAlso);
+        }
+
+        private static Expression getExpressionForNumbers<T>(
+            DbRequest dbRequest, ParameterExpression parameter)
+        {
+            return dbRequest.StandardInputValues
+                .Select(value =>
+                {
+                    var valueToSearch = value.ReplaceAll("-", "");
+                    return NUMBER_PARTIAL.Select(member =>
+                        member.ToExpression<T>("Contains", valueToSearch, parameter))
+                        .Aggregate(Expression.OrElse);
+                }).Aggregate(Expression.AndAlso);
+        }
+
+        private static Expression ToExpression<T>(
+            this Expression<Func<Person, string>> member,
+            string functionName,
+            string valueToSearchFor,
+            ParameterExpression parameter)
+        {
+            return (Expression)Expression.Call(
+                Expression.MakeMemberAccess(parameter, ((MemberExpression)member.Body).Member),
+                functionName,
+                Type.EmptyTypes,
+                Expression.Constant(valueToSearchFor));
+        }
+
+        private static Expression ToExpression<T>(
+            this Expression<Func<Person, string>> member,
+            MethodInfo function,
+            string valueToSearchFor,
+            ParameterExpression parameter)
+        {
+            return (Expression)Expression.Call(
+                Expression.MakeMemberAccess(parameter,
+                    ((MemberExpression)member.Body).Member),
+                function,
+                Expression.Constant(valueToSearchFor));
+        }
+
+        private static string getTodayBirthdayString()
+        {
+            var now = DateTime.Now;
+            return String.Format("{0}.{1}",
+                now.Day.ToString("D2"),
+                now.Month.ToString("D2")); 
+        }
+    }
+}

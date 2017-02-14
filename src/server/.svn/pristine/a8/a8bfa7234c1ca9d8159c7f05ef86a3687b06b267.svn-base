@@ -1,0 +1,75 @@
+﻿using WebAPI.DataAccessLayer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web;
+
+namespace WebAPI.Controllers
+{
+    public class ValuesController : ApiController
+    {
+        // GET api/values
+        public IEnumerable<object> Get()
+        {
+            return new object[] { };
+        }
+
+        // Returns a list of objects. The first object contains metadata about the response.
+        // GET api/values/name
+        public IEnumerable<object> Get(string value, string showAll)
+        {
+            switch (showAll)
+            {
+                case "log":
+                    Logger.Log(value);
+                    return new object[] { };
+                case "message":
+                    return AlertGenerator.GenerateAlert();
+                case "tags":
+                    return new object[] { };
+                case "adminaddtag":
+                    return AdminTagAdder.AddTag(value);
+                case "isadmin":
+                    return new object[] {
+                        new { is_admin = CurrentMisparIshi.IsAdmin() }
+                    };
+                case "gettagstoadd":
+                    return TagGetter.GetTags();
+                case "addtag":
+                    var addSuccess = TagAdder.AddTagForPerson(value);
+                    return new object[] { new { addSuccess } };
+                case "deletetag":
+                    var deleteSuccess =
+                        TagAdder.DeleteTagForPerson(value);
+                    return new object[] { new { deleteSuccess } };
+                case "whatido":
+                    var addWhatIDoSuccess =
+                        WhatIDoAdder.AddWhatIDo(value);
+                    return new object[] { new { addWhatIDoSuccess } };
+                default:
+                    var shouldShowAll = showAll.Equals("1");
+                    return new InputHandler().GetPersons(
+                        EnglishToHebrew.maybeConvertToHebrew(value),
+                        shouldShowAll);
+            }
+        }
+
+        // POST api/values
+        public void Post([FromBody]string value)
+        {
+        }
+
+        // PUT api/values/5
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        // DELETE api/values/5
+        public void Delete(int id)
+        {
+        }
+    }
+}

@@ -1,0 +1,78 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    // A wrapper that given the input valueFromClient of the form
+    // "misparIshi stringValue". Stores the appropriate person and
+    // string value.
+    // Returns true if successful.
+    public class PersonAndText
+    {
+        public Person personFromDb;
+        public string text;
+        public bool isValid;
+        private PersonDataContext dataContext;
+
+        public PersonAndText(string valueFromClient)
+        {
+            var splitValues = valueFromClient.SplitAroundFirst(' ');
+            if (splitValues.Length != 2)
+            {
+                this.isValid = false;
+                return;
+            }
+            initializeFields(splitValues[0], splitValues[1]);
+        }
+
+        public PersonAndText(string misparIshi, string value)
+        {
+            initializeFields(misparIshi, value);
+        }
+
+        private void initializeFields(string misparIshi, string value)
+        {
+            this.dataContext = new PersonDataContext();
+
+            var personsFromDb = dataContext.Persons
+                .Where(person => person.MisparIshi.Equals(misparIshi))
+                .ToList();
+            if (personsFromDb.Count() != 1)
+            {
+                this.isValid = false;
+                return;
+            }
+
+            this.personFromDb = personsFromDb.First();
+
+            this.text = value;
+
+            this.isValid = true;
+        }
+
+        public void submitChanges()
+        {
+            dataContext.SubmitChanges();
+        }
+    }
+
+    static class StringExtensions
+    {
+        public static string[] SplitAroundFirst(
+            this string s, char from)
+        {
+            var indexOfFirstOccurence = s.IndexOf(from);
+            if (indexOfFirstOccurence < 0)
+            {
+                return new string[] { s };
+            }
+            return new string[] {
+                s.Substring(0, indexOfFirstOccurence),
+                s.Substring(indexOfFirstOccurence + 1)
+            };
+        }
+    }
+}

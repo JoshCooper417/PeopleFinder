@@ -1,0 +1,96 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class TagAdder
+    {
+        public static bool AddTagForPerson(string valueFromClient)
+        {
+            return new PersonAndTag(valueFromClient).Add();
+        }
+        
+        public static bool DeleteTagForPerson(string valueFromClient)
+        {
+            return new PersonAndTag(valueFromClient).Delete();
+        }
+    }
+
+    class PersonAndTag
+    {
+        public Person personFromDb;
+        public long tagPrime;
+        public bool isValid;
+        private PersonDataContext dataContext;
+
+        // valueFromClient willbe the form "misparIshi tagToAdd".
+        // Returns true if successful.
+        public PersonAndTag(string valueFromClient)
+        {
+            var splitValues = valueFromClient.Split(' ');
+            if (splitValues.Length != 2)
+            {
+                this.isValid = false;
+                return;
+            }
+            this.dataContext = new PersonDataContext();
+            
+            var misparIshi = splitValues[0];
+            var personsFromDb = dataContext.Persons
+                .Where(person => person.MisparIshi.Equals(misparIshi))
+                .ToList();
+            if (personsFromDb.Count() != 1)
+            {
+                this.isValid = false;
+                return;
+            }
+
+            this.personFromDb = personsFromDb.First();
+
+            var tag = splitValues[1];
+            if (!TagToPrimeDictionary.TAG_TO_PRIME.ContainsKey(tag))
+            {
+                this.isValid = false;
+                return;
+            }
+
+            this.tagPrime = TagToPrimeDictionary.TAG_TO_PRIME[tag];
+            this.isValid = true;
+        }
+
+        public bool Add()
+        {
+            if (!this.isValid || tagAlreadyExists())
+            {
+                return false;
+            }
+            personFromDb.Tags *= tagPrime;
+            submitChanges();
+            return true;
+        }
+
+        public bool Delete()
+        {
+            if (!this.isValid || !tagAlreadyExists())
+            {
+                return false;
+            }
+            personFromDb.Tags /= tagPrime;
+            submitChanges();
+            return true;
+        }
+
+        private void submitChanges()
+        {
+            dataContext.SubmitChanges();
+        }
+
+        private bool tagAlreadyExists()
+        {
+            return personFromDb.Tags % tagPrime == 0;
+        }
+    }
+}

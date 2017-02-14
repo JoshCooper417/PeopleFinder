@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Innovation" Class="PersonDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=dev0111laka01;Initial Catalog=Innovation;Persist Security Info=True;User ID=boom_nls" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="InnovationConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Persons" Member="Persons">
+    <Type Name="Person">
+      <Column Name="MisparIshi" Type="System.String" DbType="VarChar(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WorkPhone" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="GivenName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="JobTitle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="LongWorkTitle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="AlternateName" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Department" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Company" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Mobile" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Mail" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

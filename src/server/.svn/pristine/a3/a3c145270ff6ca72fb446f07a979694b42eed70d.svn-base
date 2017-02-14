@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class LogDataForGal
+    {
+        public static IEnumerable<object> GetLogDataForGal()
+        {
+            var logDataContext = new LogDataContext();
+            return logDataContext.Logs
+                .Where(log => log.GivenName != null)
+                .GroupBy(log => log.GivenName)
+                .Select(log => new {
+                    Name = log.Key,
+                    Count = log.Count()
+                })
+                .OrderByDescending(group => group.Count)
+                .ToList();
+        }
+    }
+}

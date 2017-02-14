@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class Timer
+    {
+        private LogDataContext dataContext;
+        private string input;
+        private Boolean shouldShowAll;
+        private Stopwatch stopwatch;
+
+        public Timer(string input, bool shouldShowAll)
+        {
+            this.dataContext = new LogDataContext();
+            this.input = input;
+            this.shouldShowAll = shouldShowAll;
+            this.stopwatch = new Stopwatch();
+            stopwatch.Start();
+        
+        }
+
+        public void Stop()
+        {
+            stopwatch.Stop();
+            var queryTime = new QueryTime();
+            queryTime.Elapsed = stopwatch.Elapsed.Milliseconds;
+            queryTime.Now = DateTime.Now;
+            queryTime.Query = this.input;
+            queryTime.ShowAll = this.shouldShowAll;
+        }
+    }
+}

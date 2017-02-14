@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class TagAdder
+    {
+        public static bool AddTagForPerson(string valueFromClient)
+        {
+            return new PersonAndTag(valueFromClient).Add();
+        }
+        
+        public static bool DeleteTagForPerson(string valueFromClient)
+        {
+            return new PersonAndTag(valueFromClient).Delete();
+        }
+    }
+
+    class PersonAndTag
+    {
+        private PersonAndText personAndText;
+        private long tagPrime;
+        private bool isValid;
+
+        // valueFromClient willbe the form "misparIshi tagToAdd".
+        // Returns true if successful.
+        public PersonAndTag(string valueFromClient)
+        {
+            this.personAndText = new PersonAndText(valueFromClient);
+            if (this.personAndText.isValid)
+            {
+                this.isValid = false;
+                return;
+            }
+            var tag = this.personAndText.text;
+            if (!TagToPrimeDictionary.TAG_TO_PRIME.ContainsKey(tag))
+            {
+                this.isValid = false;
+                return;
+            }
+            this.tagPrime = TagToPrimeDictionary.TAG_TO_PRIME[tag];
+            this.isValid = true;
+        }
+
+        public bool Add()
+        {
+            if (!this.isValid || tagAlreadyExists())
+            {
+                return false;
+            }
+            this.personAndText.personFromDb.Tags *= tagPrime;
+            this.personAndText.submitChanges();
+            return true;
+        }
+
+        public bool Delete()
+        {
+            if (!this.isValid || !tagAlreadyExists())
+            {
+                return false;
+            }
+            personAndText.personFromDb.Tags /= tagPrime;
+            this.personAndText.submitChanges();
+            return true;
+        }
+
+        private bool tagAlreadyExists()
+        {
+            return personAndText.personFromDb.Tags % tagPrime == 0;
+        }
+    }
+}

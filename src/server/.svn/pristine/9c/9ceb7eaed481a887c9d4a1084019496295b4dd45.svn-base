@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class InputCleaner
+    {
+
+        // Trims the input from extraneous spaces and verifies validity.
+        // Returns null if the input is invalid.
+        public static IEnumerable<string> ToCleanInputWords(string input)
+        {
+            // Trim and eliminate all occurences of consecutive spaces.
+            input = input.Trim().ReplaceAll("  ", " ");
+
+            var termsToRemoveInInput = new List<string>();
+            TermExtractions.TERMS.Keys.ToList().ForEach(termToRemove =>
+            {
+                if (!input.Contains(termToRemove))
+                {
+                    return;
+                }
+                input = input.Without(termToRemove);
+                termsToRemoveInInput.Add(TermExtractions.TERMS[termToRemove]);
+            });
+
+            // Remove all words that appear multiple times.
+            var separatedWords = input.Split(' ')
+                .Union(termsToRemoveInInput)
+                .Where(word => word.Length > 0)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            // Make sure there is at least one word with three characters.
+            var hasOneWordWithEnoughCharacters = false;
+            separatedWords.ForEach(word =>
+            {
+                hasOneWordWithEnoughCharacters |= word.Length >= 3;
+            });
+
+            return hasOneWordWithEnoughCharacters ? separatedWords : new List<string>();
+        }
+    }
+
+    public static class StringExtension
+    {
+        public static string Without(this string baseString, string substring)
+        {
+            return baseString.ReplaceAll(substring, "");
+        }
+        
+        public static string ReplaceAll(
+            this string baseString,
+            string toReplace,
+            string replaceWith)
+        {
+            while (baseString.Contains(toReplace))
+            {
+                baseString = baseString.Replace(toReplace, replaceWith);
+            }
+            return baseString;
+        }
+    }
+}

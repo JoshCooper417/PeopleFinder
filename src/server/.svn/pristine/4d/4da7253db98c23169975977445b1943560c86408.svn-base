@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class TermExtractions
+    {
+        public static string BIRTHDAY = "BIRTHDAY";
+
+        // Defines a list of substrings that we replace with our own values. This is
+        // used to support EasterEggs like "birthdays" and phrases that have multiple
+        // words that should be kept together like "בחא 8".
+        public static IDictionary<string, string> TERMS =
+            new Dictionary<string, string> (StringComparer.OrdinalIgnoreCase) {
+            { "יום הולדת", BIRTHDAY },
+            { "ימי הולדת", BIRTHDAY },
+            { "יומולדת", BIRTHDAY },
+            { "birthday", BIRTHDAY },
+            { "נןראיגשט", BIRTHDAY },
+            { "בח\"א 8", "בח\"א 8" },
+            { "בחא 8", "בח\"א 8" },
+            { "בח\"א 6", "בח\"א 6" },
+            { "בחא 6", "בח\"א 6" },
+            { "בח\"א 10", "בח\"א 10" },
+            { "בחא 10", "בח\"א 10" },
+            { "בח\"א 28", "בח\"א 28" },
+            { "בחא 28", "בח\"א 28" },
+            { "בח\"א 21", "בח\"א 21" },
+            { "בחא 21", "בח\"א 21" }
+        };
+    }
+}

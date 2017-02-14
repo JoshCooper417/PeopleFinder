@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    public class TagFetcher
+    {
+        public static IEnumerable<object> FetchTags(string misparIshi)
+        {
+            var dataContext = new PersonDataContext();
+            return dataContext.Tags
+                .Where(tags => tags.MisparIshi.Equals(misparIshi))
+                .Select(tag =>  new {tag_name = tag.Tag1})
+                .ToList();
+        }
+    }
+}

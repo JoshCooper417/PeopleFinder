@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html ng-app="phoneLocator" dir="rtl">
+
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>איתורפון</title>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-animate/angular-animate.js"></script>
+    <script src="lib/angular-aria/angular-aria.js"></script>
+    <script src="lib/angular-material/angular-material.js"></script>
+    <script src="app/index.js"></script>
+    <link rel="stylesheet" href="lib/angular-material/angular-material.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body ng-controller="FinderCtrl">
+	<div layout="row" layout-align="center">
+        <md-input-container class="text-input">
+            <form name="phoneForm" ng-submit="submitQuery()">
+                <label>טקסט לחיפוש:</label>
+                <input type="text" ng-change="onTextChange()"
+                	ng-trim="false" ng-model="query" autofocus
+                	class="main-input"
+    				placeholder="{{'תפקיד, תחום, מקום, שם...'}}"></input>
+            </form>
+        </md-input-container>
+	</div>
+	
+	<div>
+		<div class="person-to-email" ng-repeat="person in peopleToEmail">
+			{{person.name}}
+			<div style="cursor: pointer" class="remove-from-email-list" ng-click="unpin(person)">X</div>
+		</div>
+    	<button ng-if="peopleToEmail!=0" ng-click="sendMailToPinned()">שלח מייל</button>
+    	<button ng-if="peopleToEmail!=0" ng-click="clearPinned()">נקה</button>
+    </div>
+	
+	<div layout="column">
+	    <h3 ng-if="appState == AppStates.NOT_ENOUGH_CHARACTERS" class="header">נא להקליד יותר תווים</h3>
+		<div ng-if="appState == AppStates.SHOW_PEOPLE">
+		  <div class="metanote">
+			  <span ng-switch on="people.length">
+			  	  <span ng-switch-when="0">לא נמצאו רישומים לשאילתה</span>
+			  	  <span ng-switch-when="1">תוצאה אחת עבור </span>
+			  	  <span ng-switch-default>
+			  	  	{{people.length}} תוצאות 
+			  	  	<span ng-if="metadata.shouldShowSeeMore">הראשונות </span>
+			  	  	עבור 
+		  	  	  </span>
+			  "<b>{{metadata.query}}</b>"
+			  </span>
+		  </div>
+		  <md-list ng-repeat="person in people">
+	        <md-list-item class="md-3-line list-wrapper"
+	        	ng-class="{'expandCollapse-heading-collapsed':active1,'expandCollapse-heading-expanded':!active1}">
+				
+				<div class="pin-wrapper" class="pin-wrapper" ng-click="togglePinPerson(person)" ng-if="person.mail">
+		  			<img src="/lib/mail.png" class="pin">
+		  			<div class="pin-check-or-plus-not-pinned" ng-if="!isPinned(person)">+</div>
+		  			<div class="pin-check-or-plus-pinned" ng-if="isPinned(person)"></div>
+		  		</div>
+
+	  			<div class="birthday" ng-if="person.is_birthday_today">
+	  				יום הולדת שמח!!!!!
+	  			</div>
+	  			<div hd-hide="!person.showPin && !person.pinnned" class="pinUp"></div>
+	  			<div ng-repeat="title in list"></div>
+		  		<div ng-if="person.picture" class="thumbnail-wrapper">
+		  			<img class="thumbnail" flex ng-src="data:image/png;base64,{{person.picture}}">
+		  		</div>
+
+	            <md-input-container flex ng-repeat="field in person.top_row" ng-if="field.value">
+	                <label>{{field.name}}</label>
+	                <input ng-model="field.value" readonly />
+	            </md-input-container>
+
+	            <img src="/lib/mail.png" class="email" ng-if="person.mail" ng-click="sendEmail(person.mail)">
+
+	            <div ng-if="person.bottom_row.length"
+	            	ng-click="person.showMore = !person.showMore; onMorePressed();"
+	            	tabindex="0" class="more-less">
+	            	{{person.showMore ? '-' : '+'}}
+	            </div>
+	        </md-list-item>
+            
+            <div ng-hide="!person.showMore" class="slideDown">
+            	<div ng-class="expand-collapse-content" class="extra-list-wrapper">
+	            	<div ng-repeat="field in person.bottom_row" ng-if="field.value" class="bottom-row-field">
+		                <div class="bottom-row-field-name">{{field.name}}</div>
+		                <div>{{field.value}}</div>
+	                </div>
+		  			
+		  			<div class="big-picture-wrapper" ng-if="person.picture">
+		  				<img flex class="big-picture"
+		  					 ng-src="data:image/png;base64,{{person.picture}}">
+		  			</div>
+                </div>
+            </div>
+		  </md-list>
+		  <div ng-if="metadata.shouldShowSeeMore"
+		  	   class="see-more"
+		  	   ng-click="submitQuery(true)">
+		  	   להציג את כולם (עלול להיות איטי)
+		  </div>
+		</div>
+		<div ng-if="appState == AppStates.LOADING"><div class="spinner"></div></div>
+	    <h3 ng-if="appState == AppStates.ERROR" class="header">משהו לא תקין קרה...נא ליצור קשר עם שון דיננברג 0369-7820</h3>
+	</div>
+</body>
+</html>

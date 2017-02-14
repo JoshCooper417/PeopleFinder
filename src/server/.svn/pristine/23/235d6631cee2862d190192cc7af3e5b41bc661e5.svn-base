@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Innovation" Class="PersonDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=dev0111laka01;Initial Catalog=Innovation;Persist Security Info=True;User ID=boom_nls" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="InnovationConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.PersonsDev" Member="PersonDevs">
+    <Type Name="PersonDev">
+      <Column Name="MisparIshi" Type="System.String" DbType="VarChar(9) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WorkPhone" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="GivenName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="JobTitle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="LongWorkTitle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="AlternateName" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Department" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Company" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Mobile" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Mail" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Picture" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Surname" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Darga" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Sex" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="IsDev" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="BirthdayDisplayString" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="JobTitleSearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="LongWorkTitleSearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="AlternateNameSearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="DepartmentSearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="CompanySearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Persons" Member="Persons">
+    <Type Name="Person">
+      <Column Name="MisparIshi" Type="System.String" DbType="VarChar(9) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WorkPhone" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="GivenName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="JobTitle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="LongWorkTitle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="AlternateName" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Department" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Company" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Mobile" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Mail" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Picture" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Surname" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Darga" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Sex" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="BirthdayDisplayString" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="JobTitleSearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="LongWorkTitleSearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="AlternateNameSearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="DepartmentSearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="CompanySearchable" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="Person_Tag" Member="Tags" ThisKey="MisparIshi" OtherKey="MisparIshi" Type="Tag" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tags" Member="Tags">
+    <Type Name="Tag">
+      <Column Name="MisparIshi" Type="System.String" DbType="VarChar(9) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tag" Member="Tag1" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Person_Tag" Member="Person" ThisKey="MisparIshi" OtherKey="MisparIshi" Type="Person" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

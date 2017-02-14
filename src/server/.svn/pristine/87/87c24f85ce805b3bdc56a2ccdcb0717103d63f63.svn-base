@@ -1,0 +1,65 @@
+﻿using WebAPI.DataAccessLayer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web;
+
+namespace WebAPI.Controllers
+{
+    public class ValuesController : ApiController
+    {
+        // GET api/values
+        public IEnumerable<object> Get()
+        {
+            return new object[] { };
+        }
+
+        // Returns a list of objects. The first object contains metadata about the response.
+        // GET api/values/name
+        public IEnumerable<object> Get(string value, string showAll)
+        {
+           
+            // TODO(Ed): This should be routed to a different URL or something.
+            var isLog = showAll.Equals("log");
+            if (isLog)
+            {
+                Logger.Log(value);
+                return new object[] { };
+            }
+            
+            var isUpdate = showAll.Equals("message");
+            if (isUpdate)
+            {
+                return AlertGenerator.GenerateAlert();
+            }
+            
+            var isTag = showAll.Equals("tags");
+            if (isTag)
+            {
+                return TagFetcher.FetchTags(value);
+            }
+            
+            var shouldShowAll = showAll.Equals("1");
+            return new InputHandler().GetPersons(
+                EnglishToHebrew.maybeConvertToHebrew(value), shouldShowAll);
+        }
+
+        // POST api/values
+        public void Post([FromBody]string value)
+        {
+        }
+
+        // PUT api/values/5
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        // DELETE api/values/5
+        public void Delete(int id)
+        {
+        }
+    }
+}

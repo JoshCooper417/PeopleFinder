@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using WebAPI.Models;
+
+namespace WebAPI.DataAccessLayer
+{
+    
+    public static class TagToPrimeDictionary
+    {
+        public static IDictionary<string, long> TAG_TO_PRIME = new Dictionary<string, long>();
+        public static IDictionary<long, string> PRIME_TO_TAG = new Dictionary<long, string>();
+        public static List<long> AVAILABLE_PRIMES = new List<long>();
+
+        static TagToPrimeDictionary() {
+            var dataContext = new PersonDataContext();
+            TAG_TO_PRIME = new Dictionary<string, long>();
+            PRIME_TO_TAG = new Dictionary<long, string>();
+
+            dataContext.TagPrimes.ToList().ForEach(tagPrime =>
+            {
+                TAG_TO_PRIME.Add(tagPrime.Tag, tagPrime.PrimeId);
+                PRIME_TO_TAG.Add(tagPrime.PrimeId, tagPrime.Tag);
+                AVAILABLE_PRIMES.Add(tagPrime.PrimeId);
+            });
+            AVAILABLE_PRIMES.Sort();
+        }
+    }
+}
