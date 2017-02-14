@@ -27,6 +27,8 @@ namespace WebAPI.Controllers
                     var new_tag =
                         TagAdder.AddTagForPerson(request.MisparIshi, request.Data);
                     return new object[] { new { new_tag } };
+                case "message":
+                    return new BotMessageHandler(request.Data).GetReply();
             }
             return new object[] { };
         }

@@ -361,6 +361,34 @@ div md-input-container .md-input{
     max-width: 50%;
 }
 
-.tag-name{
 
+.chat-window-wrapper {
+	background: #DED9D5;
+	padding: 20px;
+    margin-bottom: 16px;
+}
+
+.chat-from-bot {
+	text-align: left;
+}
+
+.chat-from-bot,
+.chat-from-me {
+	margin: 3px 0;
+}
+
+.actual-message {
+	padding: 6px 8px;
+	border-radius: 4px;
+	max-width: 50%;
+
+    display: inline-block;
+}
+
+.chat-from-bot > .actual-message {
+	background: white;
+}
+
+.chat-from-me > .actual-message {
+	background: #DBF7C5;
 }

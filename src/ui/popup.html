@@ -229,9 +229,27 @@
 		<div>{{tagAddedMessage}}</div>
 	</div>
 </div>
-<div ng-hide="!isInBotMode">
-	BOT MODE
+
+
+<div class="everything-wrapper" ng-hide="!isInBotMode">
+	<div class="chat-window-wrapper">
+		<div ng-repeat="chat in chats" class="chat-wrapper"
+			ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot}">
+			<div class="actual-message">
+				{{chat.message}}
+			</div>
+		</div>
+	</div>
+	<form ng-submit="submitChat()">
+		<input type="text"
+			ng-trim="false"
+			ng-model="chat_input"
+			class="main-input"
+			placeholder="{{'תבקש משהו...'}}"input>
+	</form>
 	<div ng-click="isInBotMode = false">EXIT</div>
 </div>
+
+
 </body>
 </html>

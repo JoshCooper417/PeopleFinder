@@ -331,6 +331,26 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 
 
     logRequest(LOG_TYPES.INITIAL);
+	
+	
+	// Chats is an array of objects of the form
+	// { message: "Hello world", is_bot: true }
+	$scope.chats = [];
+	$scope.submitChat = function(){
+		var chat = $scope.chat_input;
+		var newChat = { message: chat, is_bot: false};
+		$scope.chat_input = '';
+		$scope.chats.push(newChat);
+		$scope.bot_is_typing = true;
+		httpExtension.sendGet(createRequestObject('message', chat)).success(function(data) {
+			$scope.bot_is_typing = false;
+			if (!data.length || !data[0].is_bot) {
+				return;
+			}
+			$scope.chats.push(data[0]);
+		});
+	};
+	
 
     // TODO(Josh&Ed): This seems pretty bad.
    //  window.setInterval(function() {logRequest(LOG_TYPES.TIMER)}, 1000);
