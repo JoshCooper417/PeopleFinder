@@ -2,8 +2,8 @@
  * The client side control of the people finder. Written by Ed&Josh.
  */
 
-var SERVER = 'http://app0111laka01.iaf/PplFndr/api/values/';
-//var SERVER = 'http://localhost:34781/api/values/';
+//var SERVER = 'http://app0111laka01.iaf/PplFndr/api/values/';
+var SERVER = 'http://localhost:34781/api/values/';
 
 angular.module('phoneLocator',['ngMaterial']);
 

@@ -20,7 +20,6 @@ namespace WebAPI.DataAccessLayer
         {
             var input = EnglishToHebrew.maybeConvertToHebrew(inputInEnglish);
 
-            var timer = new Timer(input, shouldShowAll);
             var dbRequest = createDbRequest(input, shouldShowAll);
             if (dbRequest == null) {
                 return new object[] { };
@@ -30,8 +29,6 @@ namespace WebAPI.DataAccessLayer
             var metadataObject =
                 createMetadataObject(input, returnObjects, dbRequest);
             returnObjects.Insert(0, metadataObject);
-
-            timer.Stop();
 
             return returnObjects;
         }

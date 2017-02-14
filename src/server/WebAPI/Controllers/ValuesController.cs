@@ -37,8 +37,6 @@ namespace WebAPI.Controllers
         {
             switch (showAll)
             {
-                case "galwantsdata":
-                    return LogDataForGal.GetLogDataForGal(value);
                 case "0":
                     return new InputHandler().GetPersons(
                         value, false);
@@ -57,9 +55,6 @@ namespace WebAPI.Controllers
                 case "whatido":
                     WhatIDoAdder.AddWhatIDo(
                         request.MisparIshi, request.Data);
-                    return;
-                case "log":
-                    Logger.Log(request.Logs);
                     return;
                 case "deletetag":
                     TagAdder.DeleteTagForPerson(request.MisparIshi, request.Data);
@@ -83,7 +78,6 @@ namespace WebAPI.Controllers
         public string Type { get; set; }
         public string MisparIshi { get; set; }
         public string Data { get; set; }
-        public LogData Logs { get; set; }
         public bool ShowAll { get; set; }
         public bool TagForAnyone { get; set; }
     }
