@@ -2,22 +2,16 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Person">
   <DataContextMoniker Name="/PersonDataContext" />
   <nestedChildShapes>
-    <classShape Id="9b3c17a3-425b-4fcf-9b1a-cd5c18c9f830" absoluteBounds="5.125, 1.25, 2, 5.2323225911458326">
-      <DataClassMoniker Name="/PersonDataContext/PersonDev" />
-      <nestedChildShapes>
-        <elementListCompartment Id="17400e2d-d3d7-4f89-b9a3-e3fa937ab6a5" absoluteBounds="5.14, 1.71, 1.9700000000000002, 4.672322591145833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="9bfd8145-b49a-45d2-bf1a-14caf8b973b8" absoluteBounds="3.375, 1, 2, 1.3862939453125">
-      <DataClassMoniker Name="/PersonDataContext/TagPrime" />
-      <nestedChildShapes>
-        <elementListCompartment Id="316c07e3-8b6d-48a3-8fe6-fe304b427d73" absoluteBounds="3.39, 1.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="44af5525-e104-4f6f-805a-9a8c4a901fb9" absoluteBounds="0.75, 1, 2, 5.8092268880208326">
+    <classShape Id="3be75147-4e98-4dcc-92b8-45e3a695a099" absoluteBounds="5.375, 2.25, 2, 5.8092268880208326">
       <DataClassMoniker Name="/PersonDataContext/Person" />
       <nestedChildShapes>
-        <elementListCompartment Id="e5eae5d3-5264-4483-bc9b-90edef849c30" absoluteBounds="0.765, 1.46, 1.9700000000000002, 5.249226888020833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="32c816e0-4aef-4ef0-8979-0db4c7374478" absoluteBounds="5.39, 2.71, 1.9700000000000002, 5.249226888020833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="13c5560d-498b-4396-a576-c067db2c62c4" absoluteBounds="2.875, 1.375, 2, 1.3862939453125">
+      <DataClassMoniker Name="/PersonDataContext/TagPrime" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e4134644-e5c9-485a-a28a-83c398747ad5" absoluteBounds="2.8899999999999997, 1.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

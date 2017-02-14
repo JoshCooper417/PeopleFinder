@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebAPI.Models
+namespace PeopleDbFiller
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -33,13 +33,10 @@ namespace WebAPI.Models
     partial void InsertPerson(Person instance);
     partial void UpdatePerson(Person instance);
     partial void DeletePerson(Person instance);
-    partial void InsertTagPrime(TagPrime instance);
-    partial void UpdateTagPrime(TagPrime instance);
-    partial void DeleteTagPrime(TagPrime instance);
     #endregion
 		
 		public PersonDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["PeopleFinderConnectionString1"].ConnectionString, mappingSource)
+				base(global::PeopleDbFiller.Properties.Settings.Default.PeopleFinderConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -73,14 +70,6 @@ namespace WebAPI.Models
 			get
 			{
 				return this.GetTable<Person>();
-			}
-		}
-		
-		public System.Data.Linq.Table<TagPrime> TagPrimes
-		{
-			get
-			{
-				return this.GetTable<TagPrime>();
 			}
 		}
 	}
@@ -133,7 +122,7 @@ namespace WebAPI.Models
 		
 		private string _CompanySearchable;
 		
-		private long _Tags;
+		private System.Nullable<long> _Tags;
 		
 		private string _OtherTelephone;
 		
@@ -189,7 +178,7 @@ namespace WebAPI.Models
     partial void OnDepartmentSearchableChanged();
     partial void OnCompanySearchableChanging(string value);
     partial void OnCompanySearchableChanged();
-    partial void OnTagsChanging(long value);
+    partial void OnTagsChanging(System.Nullable<long> value);
     partial void OnTagsChanged();
     partial void OnOtherTelephoneChanging(string value);
     partial void OnOtherTelephoneChanged();
@@ -627,7 +616,7 @@ namespace WebAPI.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tags", DbType="BigInt")]
-		public long Tags
+		public System.Nullable<long> Tags
 		{
 			get
 			{
@@ -722,116 +711,6 @@ namespace WebAPI.Models
 					this._WhatIDo = value;
 					this.SendPropertyChanged("WhatIDo");
 					this.OnWhatIDoChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TagPrimes")]
-	public partial class TagPrime : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _Tag;
-		
-		private int _PrimeId;
-		
-		private bool _AllowNonAdminsToAdd;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnTagChanging(string value);
-    partial void OnTagChanged();
-    partial void OnPrimeIdChanging(int value);
-    partial void OnPrimeIdChanged();
-    partial void OnAllowNonAdminsToAddChanging(bool value);
-    partial void OnAllowNonAdminsToAddChanged();
-    #endregion
-		
-		public TagPrime()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tag", DbType="VarChar(255) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string Tag
-		{
-			get
-			{
-				return this._Tag;
-			}
-			set
-			{
-				if ((this._Tag != value))
-				{
-					this.OnTagChanging(value);
-					this.SendPropertyChanging();
-					this._Tag = value;
-					this.SendPropertyChanged("Tag");
-					this.OnTagChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PrimeId", DbType="Int NOT NULL")]
-		public int PrimeId
-		{
-			get
-			{
-				return this._PrimeId;
-			}
-			set
-			{
-				if ((this._PrimeId != value))
-				{
-					this.OnPrimeIdChanging(value);
-					this.SendPropertyChanging();
-					this._PrimeId = value;
-					this.SendPropertyChanged("PrimeId");
-					this.OnPrimeIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AllowNonAdminsToAdd", DbType="Bit NOT NULL")]
-		public bool AllowNonAdminsToAdd
-		{
-			get
-			{
-				return this._AllowNonAdminsToAdd;
-			}
-			set
-			{
-				if ((this._AllowNonAdminsToAdd != value))
-				{
-					this.OnAllowNonAdminsToAddChanging(value);
-					this.SendPropertyChanging();
-					this._AllowNonAdminsToAdd = value;
-					this.SendPropertyChanged("AllowNonAdminsToAdd");
-					this.OnAllowNonAdminsToAddChanged();
 				}
 			}
 		}
