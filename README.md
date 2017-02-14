@@ -1,2 +1,2 @@
 # PeopleFinder
-Let's find people.
+Let's find people!
