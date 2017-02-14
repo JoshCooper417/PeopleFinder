@@ -1,0 +1,75 @@
+USE [Innovation]
+GO
+/****** Object:  Table [dbo].[TagPrimes]    Script Date: 02/09/2017 12:01:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[TagPrimes](
+	[Tag] [varchar](255) COLLATE Hebrew_CI_AS NOT NULL,
+	[PrimeId] [int] NOT NULL,
+	[AllowNonAdminsToAdd] [bit] NOT NULL,
+ CONSTRAINT [PK_TagPrimes] PRIMARY KEY CLUSTERED 
+(
+	[Tag] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [TP_Prime] UNIQUE NONCLUSTERED 
+(
+	[PrimeId] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [TP_Tag] UNIQUE NONCLUSTERED 
+(
+	[Tag] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+
+
+USE [Innovation]
+GO
+/****** Object:  Table [dbo].[Persons]    Script Date: 02/09/2017 12:01:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Persons](
+	[MisparIshi] [varchar](9) COLLATE Hebrew_CI_AS NOT NULL,
+	[WorkPhone] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[GivenName] [varchar](255) COLLATE Hebrew_CI_AS NOT NULL,
+	[JobTitle] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Location] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[LongWorkTitle] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[AlternateName] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Department] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Company] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Mobile] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Mail] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Picture] [varbinary](max) NULL,
+	[Surname] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Darga] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Sex] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[BirthdayDisplayString] [varchar](5) COLLATE Hebrew_CI_AS NULL,
+	[JobTitleSearchable] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[LongWorkTitleSearchable] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[AlternateNameSearchable] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[DepartmentSearchable] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[CompanySearchable] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Tags] [bigint] NULL CONSTRAINT [DF_Persons_Tags]  DEFAULT ((1)),
+	[OtherTelephone] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[Fax] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[HomeTelephone] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+	[WhatIDo] [varchar](255) COLLATE Hebrew_CI_AS NULL,
+ CONSTRAINT [PK_Persons] PRIMARY KEY CLUSTERED 
+(
+	[MisparIshi] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
