@@ -15,38 +15,6 @@
 
 <body ng-controller="FinderCtrl">
  <div class="everything-wrapper" ng-hide="isInBotMode">
-	<div layout="row" layout-align="center" class="input-wrapper">
-		<form name="phoneForm" ng-submit="submitQuery()">
-			<div class="main-input-label">חיפוש:</div>
-			<input type="text"
-				ng-change="onTextChange()"
-				ng-trim="false"
-				ng-model="query"
-				class="main-input"
-				placeholder="{{'שם, תפקיד, יחידה...'}}"
-				autofocus></input>
-			<div class="help-button-wrapper">
-				<div class="help-button">?</div>
-				<div class="help-floater">
-					<div>ניתן לחפש לפי כל מיני נתונים כגון:</div>
-					<ul>
-						<li>שם
-						<li>תפקיד
-						<li>מספר טלפון
-						<li>יחידה
-						<li>דרגה
-					</ul>
-					<div>אפשר גם שילובים שונים:</div>
-					<ul>
-						<li><i>עומר חדשנות</i>
-						<li><i>גל אופק</i>
-						<li><i>בחא 8 סגן</i>
-					</ul>
-				</div>
-			</div>
-		</form>
-	</div>
-
 	<div class="mailing-list">
 		<div ng-if="peopleToEmail.length" class="mailing-list-title">רשימת תפוצה</div>
 		<div ng-repeat="person in peopleToEmail track by $index">
@@ -58,22 +26,15 @@
     	<button ng-if="peopleToEmail!=0" ng-click="sendMailToPeople(peopleToEmail)">שלח מייל</button>
     	<button ng-if="peopleToEmail!=0" ng-click="clearPinned()">נקה</button>
     </div>
-	<div>
-	    <h3 ng-if="appState == AppStates.NOT_ENOUGH_CHARACTERS" class="header">נא להקליד יותר תווים</h3>
-		<div ng-if="appState == AppStates.SHOW_PEOPLE">
-		  <div class="metanote">
-			  <span ng-switch on="people.length">
-			  	  <span ng-switch-when="0">לא נמצאו רישומים לשאילתה</span>
-			  	  <span ng-switch-when="1">תוצאה אחת עבור </span>
-			  	  <span ng-switch-default>
-			  	  	{{people.length}} תוצאות
-			  	  	<span ng-if="metadata.shouldShowSeeMore">הראשונות </span>
-			  	  	עבור
-		  	  	  </span>
-			  "<b>{{metadata.query}}</b>"
-			  </span>
-		  </div>
-		  <md-list ng-repeat="person in people">
+</div>
+
+
+<div class="everything-wrapper" ng-hide="!isInBotMode">
+	<div class="chat-window-wrapper">
+		<div ng-repeat="chat in chats" class="chat-wrapper"
+			ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot}">
+			<div class="actual-message" ng-if="chat.message">{{chat.message}}</div>
+		  <md-list ng-repeat="person in chat.persons" style="padding: 1px 0">
 			<div class="pin-wrapper remove-outline"
 				  title="הוסף לתפוצה"
 				  ng-click="togglePinPerson(person)"
@@ -236,46 +197,9 @@
 		  	</div>
 	        </md-list-item>
 		  </md-list>
-		  <div ng-if="showSendMailToAllButton()" style="text-align: center">
-		  	<div class="send-everyone" ng-click="sendMailToPeople(people)">לשלוח מייל לכל הרשימה</div>
-		  </div>
-		  <div ng-if="metadata.shouldShowSeeMore"
-		  	   class="see-more"
-		  	   ng-click="submitQuery(true)">
-		  	   להציג את כולם (עלול להיות איטי)
-		  </div>
 		</div>
-		<div ng-if="appState == AppStates.LOADING"><div class="spinner"></div></div>
-	    <h3 ng-if="appState == AppStates.ERROR" class="header">משהו לא תקין קרה...נא ליצור קשר עם שון דיננברג 0369-7820</h3>
-	</div>
-	<div  ng-click="isInBotMode = true">GET HELP FROM BOT</div>
-	
-
-	<div ng-hide="!isAdmin">
-		<div class="admin-add-more-tags">
-			 הוסף עוד תגים (לאדמינים בלבד)
-		</div>
-		<div >
-            <form name="phoneForm" ng-submit="submitTag()">
-            	<span>לאפשר לכולם לתייג את עצמם</span>
-            	<input type="checkbox" ng-model="tagToAddIsForAnyone">
-            	<div>
-					<input type="text"  ng-model="tagToAdd">
-				</div>
-            </form>
-		</div>
-		<div>{{tagAddedMessage}}</div>
-	</div>
-</div>
-
-
-<div class="everything-wrapper" ng-hide="!isInBotMode">
-	<div class="chat-window-wrapper">
-		<div ng-repeat="chat in chats" class="chat-wrapper"
-			ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot}">
-			<div class="actual-message">
-				{{chat.message}}
-			</div>
+		<div ng-if="bot_is_typing" class="chat-wrapper chat-from-bot">
+			<div class="actual-message">מחפש...</div>
 		</div>
 	</div>
 	<form ng-submit="submitChat()">

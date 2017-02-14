@@ -99,11 +99,6 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
      // with the second.
      var currentRequestQuery;
      function handleResponse(data, query) {
-        if (query != currentRequestQuery) {
-            // Abandon the response because we'll have a more updated one soon.
-            return;
-        }
-
         $scope.appState = $scope.AppStates.SHOW_PEOPLE;
         // The first item in data should be the metadata object. Everything else is people.
         $scope.metadata = data.splice(0,1)[0];
@@ -114,10 +109,14 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
         clearTimeout(sendQueryTimeout);
      };
 
+     function isQueryTooShort() {
+		 return isGivenQueryTooShort($scope.query);
+     }
+
      // A valid query must contain at least one space-separated word that is at least
      // MINIMUM_QUERY_LENGTH characters long.
-     function isQueryTooShort() {
-        var words = $scope.query.split(' ');
+     function isGivenQueryTooShort(query) {
+        var words = query.split(' ');
         for (var i = 0; i < words.length; i++) {
             if (words[i].length >= MINIMUM_QUERY_LENGTH) {
                 return false;
@@ -351,20 +350,38 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 	
 	
 	// Chats is an array of objects of the form
-	// { message: "Hello world", is_bot: true }
+	// { message: "Hello world", is_bot: true/false, person: person }
 	$scope.chats = [];
-	$scope.submitChat = function(){
+	
+	$scope.isInBotMode = true;
+	$scope.chats.push({ message: 'שלום, את מי מחפשים?', is_bot: true});
+
+	$scope.submitChat = function() {
 		var chat = $scope.chat_input;
 		var newChat = { message: chat, is_bot: false};
 		$scope.chat_input = '';
 		$scope.chats.push(newChat);
+		
+		if (isGivenQueryTooShort(chat)) {
+			$scope.chats.push({ is_bot: true, message: 'נא להקליד יותר תווים'});
+			return;
+		}
+		
 		$scope.bot_is_typing = true;
 		httpExtension.sendGet(createRequestObject('message', chat)).success(function(data) {
 			$scope.bot_is_typing = false;
-			if (!data.length || !data[0].is_bot) {
-				return;
+
+			var metadata = data.splice(0,1)[0];
+			var query = metadata && metadata.templateData && metadata.templateData.query;
+			if (query) {
+				var queryMessage = 'הנה מה שמצאתי עבור ' + metadata.templateData.query;
+				var metadataChat = { is_bot: true, message: queryMessage};
+				$scope.chats.push(metadataChat);
 			}
-			$scope.chats.push(data[0]);
+			
+			var newChat = { is_bot: true, persons: data };
+			$scope.chats.push(newChat);
+
 		});
 	};
 	

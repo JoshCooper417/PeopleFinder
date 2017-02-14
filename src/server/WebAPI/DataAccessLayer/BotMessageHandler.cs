@@ -15,12 +15,7 @@ namespace WebAPI.DataAccessLayer
 
         public IEnumerable<object> GetReply()
         {
-            return new object[] {
-                new {
-                    message = input + input,
-                    is_bot = true
-                }
-            };
+            return new InputHandler().GetPersons(input, false);
         }
     }
 }
