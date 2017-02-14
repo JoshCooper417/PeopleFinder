@@ -20,14 +20,30 @@ namespace WebAPI.DataAccessLayer
         {
             var input = EnglishToHebrew.maybeConvertToHebrew(inputInEnglish);
 
-            var dbRequest = createDbRequest(input, shouldShowAll);
-            if (dbRequest == null) {
+            DbRequest dbRequest = null;
+            ITemplate templateToUse = null;
+            foreach (ITemplate template in Templates.CreateTemplateList())
+            {
+                if (!template.MatchingRegex().IsMatch(input))
+                {
+                    continue;
+                }
+                dbRequest = template.MakeDbRequest(input, shouldShowAll);
+                if (dbRequest == null)
+                {
+                    continue;
+                }
+                templateToUse = template;
+                break;
+            }
+
+            if (dbRequest == null || templateToUse == null) {
                 return new object[] { };
             }
 
-            var returnObjects = createMatchingPersonsList(dbRequest);
+            var returnObjects = createMatchingPersonsList(dbRequest, templateToUse);
             var metadataObject =
-                createMetadataObject(input, returnObjects, dbRequest);
+                createMetadataObject(templateToUse, returnObjects, dbRequest);
             returnObjects.Insert(0, metadataObject);
 
             return returnObjects;
@@ -39,11 +55,16 @@ namespace WebAPI.DataAccessLayer
             return new DbRequest(input, shouldShowAll);
         }
 
-        private List<object> createMatchingPersonsList(DbRequest dbRequest)
+        private List<object> createMatchingPersonsList(DbRequest dbRequest, ITemplate templateToUse)
         {
             // Post process the selected entities; adjusting and renaming some fields.
-            return DbReader.GetPersonsFromDb(dbRequest)
-                .Select(person =>  new PersonJsonWrapper(person))
+            var personJsonsFromDb = DbReader.GetPersonsFromDb(dbRequest)
+                .Select(person => new PersonJsonWrapper(person))
+                .ToList();
+
+            var processedPersonJsons = templateToUse.ProcessPersonJsons(personJsonsFromDb);
+
+            return personJsonsFromDb
                 .OrderByDescending(person => person.IsMe)
                 .ThenByDescending(person => person.Mail)
                 .ThenBy(person => person.Name)
@@ -51,7 +72,8 @@ namespace WebAPI.DataAccessLayer
                 .ToList();
         }
 
-        private object createMetadataObject(string input,
+
+        private object createMetadataObject(ITemplate template,
             IEnumerable<object> persons,
             DbRequest dbRequest)
         { 
@@ -63,7 +85,8 @@ namespace WebAPI.DataAccessLayer
                 && persons.Count() == dbRequest.NumberToTake;
             
             return new {
-                query = input,
+                //query = template.MetdataDisplayValue(),
+                templateData = template.AddMetadata(),
                 shouldShowSeeMore = listWasCutOff,
                 isAdmin = CurrentMisparIshi.IsAdmin(),
                 nonAdminsCanAddTags = false
