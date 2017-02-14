@@ -66,9 +66,9 @@
 			  	  <span ng-switch-when="0">לא נמצאו רישומים לשאילתה</span>
 			  	  <span ng-switch-when="1">תוצאה אחת עבור </span>
 			  	  <span ng-switch-default>
-			  	  	{{people.length}} תוצאות 
+			  	  	{{people.length}} תוצאות
 			  	  	<span ng-if="metadata.shouldShowSeeMore">הראשונות </span>
-			  	  	עבור 
+			  	  	עבור
 		  	  	  </span>
 			  "<b>{{metadata.query}}</b>"
 			  </span>
@@ -89,15 +89,15 @@
 		  			</div>
 	        		<div ng-flex="{'25':person.showMore,'10':!person.showMore}">
 				  		<div class="thumbnail-wrapper" ng-click="onMorePressed(person);">
-				            <img ng-if="person.bottom_row.length && person.showMore"
+				            <img ng-if="person.bottom_row.length && !person.showMore"
 				            	class="more-less"
 				            	src="/plus.png"
 				            	title="הרחב">
-				            <img ng-if="person.bottom_row.length && !person.showMore"
+				            <img ng-if="person.bottom_row.length && person.showMore"
 				            	class="more-less"
 				            	src="/minus.png"
 				            	title="צמצם">
-				  			
+
 				  			<!--TODO(Ed): Add back big-thumbnail -->
 				  			<img ng-if="person.picture" class="thumbnail"
 			  					ng-src="data:image/png;base64,{{person.picture}}">
@@ -134,14 +134,14 @@
 					  				 <div ng-if="person.what_i_do || canEditWhatDoIDo(person)">
 					  				 	<div class="bottom-row-field what-i-do">
 						                	<div class="bottom-row-field-name">מה אני עושה בכמה מילים</div>
-						                	
+
 						                	<div ng-if="!person.editing_what_i_do" >{{person.what_i_do}}</div>
 						                	<form  ng-submit="setWhatIDoMessage(person)">
 						                		<input ng-if="person.editing_what_i_do"
 						                		    type="text"
 						                			ng-model="person.whatIDoToAdd">
 						                	</form>
-						                	
+
 						                	<div ng-if="canEditWhatDoIDo(person) && !person.editing_what_i_do"
 						                		 class="change-what-i-do"
 						                		 ng-click="person.editing_what_i_do = true;
