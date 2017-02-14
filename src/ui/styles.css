@@ -1,3 +1,11 @@
+@font-face {
+    font-family: OpenSansHebrew-Regular;
+    src: url('/lib/fonts/OpenSansHebrew-Regular.ttf');
+}
+
+body{
+	font-family:OpenSansHebrew-Regular;
+}
 .everything-wrapper {
     font-family: Tahoma;
     min-width: 695px;
@@ -63,6 +71,32 @@ div md-input-container .md-input{
     width: 42px;
     margin: 13px 6px;
 }
+
+/*hackathon adding*/
+.skype {
+	left: 100px;
+    position: absolute;
+}
+
+.skype img{
+    cursor: pointer;
+    width: 42px;
+    margin: 13px 6px;
+}
+
+.menuPopup {
+	left: 20vh;
+    position: absolute;
+}
+
+.menuPopupIcons {
+	width: 35px !important;
+}
+
+.remove-outline{
+	outline:none;
+}
+/*hackathon adding*/
 
 .pinUp {
     margin-left:10px;

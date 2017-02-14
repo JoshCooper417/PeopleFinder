@@ -10,3 +10,9 @@ C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Deb
 C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.exe
 C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.pdb
 C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Debug\PeopleDbFiller.csprojResolveAssemblyReference.cache
+C:\Users\huser\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.exe.config
+C:\Users\huser\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Debug\PeopleDbFiller.exe
+C:\Users\huser\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Debug\PeopleDbFiller.pdb
+C:\Users\huser\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.exe
+C:\Users\huser\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.pdb
+C:\Users\huser\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Debug\PeopleDbFiller.csprojResolveAssemblyReference.cache
