@@ -31,5 +31,12 @@ namespace WebAPI.DataAccessLayer
             return input;
         }
 
+        public object AddMetadata()
+        {
+            return new
+            {
+                query = input
+            };
+        }
     }
 }
