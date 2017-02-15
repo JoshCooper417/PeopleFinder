@@ -375,16 +375,18 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 
 			var metadata = data.splice(0,1)[0];
 			var queryMessage = '';
-			if(data.length == 0){
+			if(data.length == 0) {
 				queryMessage = "מצטער, לא נמצאו תוצאות...";
 			}
-			else{
+			else {
 				queryMessage = (metadata && metadata.templateData && metadata.templateData.query) || '';
 			}
 			
 	
 			var responseChat = createChatObject(queryMessage, true);
 			responseChat.persons = data;
+			
+			responseChat.action = metadata.templateData.action;
 			
 			$scope.chats.push(responseChat);
 			
@@ -494,19 +496,5 @@ angular.module("phoneLocator").controller("menuPopupCtrl", function($scope) {
             }, 500);
         });
      };
-	 
-	 $scope.doAction = function(actionName, actionTarget){
-		 switch(actionName){
-			 case "mail":
-				break;
-				
-			case "chat":
-				break;
-				
-			case "call":
-				break;
-		 }
-	 }
-	
 });
 /*hackathon adding*/
