@@ -62,7 +62,7 @@ namespace WebAPI.DataAccessLayer
         {
             return new
             {
-                query = lookupValue
+                query = "יש צחוקים ויש חלאס"
             };
         }
     }

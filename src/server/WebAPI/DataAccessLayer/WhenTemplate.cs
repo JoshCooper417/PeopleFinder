@@ -85,7 +85,7 @@ namespace WebAPI.DataAccessLayer
         {
             return new
             {
-                query = lookupValue
+                query = "זה התאריך בו " + lookupValue + " " + lookupField + ":"
             };
         }
     }

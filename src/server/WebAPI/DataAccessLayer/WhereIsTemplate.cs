@@ -84,7 +84,7 @@ namespace WebAPI.DataAccessLayer
         {
             return new
             {
-                query = "כאן " + lookupValue + " " + lookupField
+                query = lookupValue  + " " + lookupField + " " + "כאן:"
             };
         }
     }

@@ -66,7 +66,7 @@ namespace WebAPI.DataAccessLayer
         {
             return new
             {
-                query = lookupValue
+                query = "הינה " + lookupField + " של " + lookupValue + ":"
             };
         }
     }
