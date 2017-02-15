@@ -32,7 +32,10 @@
 			   <td style="width: 50px; vertical-align: top;"><img src="bot.png" ng-if="chat.is_bot"></td>
 			   <td class="triangle-wrapper"><div ng-hide="!chat.is_bot" class="triangle-bot"></td>
 				<td>
-			   <div ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot}">
+			   <div ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot, 'action-chat': chat.action}">
+				   <div ng-if="chat.didYouMeanTranslated">
+				      אני מניח שהתכוונת ל <b>{{chat.didYouMeanTranslated}}</b> 😉
+				   </div>
 				   <div class="actual-message" ng-if="chat.message">{{chat.message}}</div>
 				   <div class="persons-wrapper">
 					  <md-list ng-repeat="person in chat.persons" style="padding: 6px 0">
@@ -70,7 +73,7 @@
 										   </div>
 										</td>
 										<td>
-										   <table style="width: 100%;">
+										   <table style="width: 100%; table-layout: fixed;">
 											  <tr style="height: 60px;">
 												 <td ng-repeat="field in person.top_row" class="top-row">
 													<md-input-container style="padding-bottom: 0;">
@@ -78,20 +81,23 @@
 													   <input ng-model="field.value" readonly />
 													</md-input-container>
 												 </td>
-												 <td style="text-align: left">
-													<md-button aria-label="Mail" class="md-fab md-raised md-mini" ng-click="sendEmail(person.mail)">
-													   <md-icon md-svg-src="/lib/envelope.svg" title="שלח מייל"></md-icon>
-													</md-button>
-													<md-button aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeChat(person.mispar_ishi)">
-													   <md-icon md-svg-src="/lib/skype.svg" title="התחל צ'אט בסקייפ"></md-icon>
-													</md-button>
-													<md-button aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeCall(person.mispar_ishi)">
-													   <md-icon md-svg-src="/lib/phone-receiver.svg" title="התחל שיחה בסקייפ"></md-icon>
-													</md-button>
-												 </td>
 											  </tr>
 										   </table>
 										</td>
+									 <td style="text-align: left; white-space: nowrap;">
+									 <md-button style="margin:2px" ng-hide="chat.action && chat.action != 'mail'"
+														aria-label="Mail" class="md-fab md-raised md-mini" ng-click="sendEmail(person.mail)">
+													   <md-icon md-svg-src="/lib/envelope.svg" title="שלח מייל"></md-icon>
+													</md-button>
+													<md-button style="margin:2px" ng-hide="chat.action && chat.action != 'chat'"
+														aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeChat(person.mispar_ishi)">
+													   <md-icon md-svg-src="/lib/skype.svg" title="התחל צ'אט בסקייפ"></md-icon>
+													</md-button>
+													<md-button style="margin:2px"  ng-hide="chat.action && chat.action != 'call'"
+														aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeCall(person.mispar_ishi)">
+													   <md-icon md-svg-src="/lib/phone-receiver.svg" title="התחל שיחה בסקייפ"></md-icon>
+													</md-button>
+									 </td>
 									 </tr>
 									 <tr>
 										<td colspan="999" style="text-align: center">

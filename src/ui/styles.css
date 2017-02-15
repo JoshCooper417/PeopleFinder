@@ -467,3 +467,18 @@ td {
 .bot-input {
 	outline: none;
 }
+
+.action-chat .list-wrapper {
+	background: rgb(240,240,240);
+	margin: 0 50px;
+	border-bottom: solid 1px;
+}
+
+.action-chat md-list {
+	padding: 0 !important;
+	display: block;
+}
+
+.action-chat md-list-item {
+	border-radius: 0;
+}
