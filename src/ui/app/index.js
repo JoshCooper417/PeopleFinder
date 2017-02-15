@@ -350,20 +350,21 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 	
 	
 	// Chats is an array of objects of the form
-	// { message: "Hello world", is_bot: true/false, person: person }
+	// { message: "Hello world", is_bot: true/false, persons: person }
 	$scope.chats = [];
 	
 	$scope.isInBotMode = true;
-	$scope.chats.push({ message: 'שלום, את מי מחפשים?', is_bot: true});
+	$scope.chats.push(createChatObject('שלום, את מי מחפשים?', true));
 
 	$scope.submitChat = function() {
 		var chat = $scope.chat_input;
-		var newChat = { message: chat, is_bot: false};
 		$scope.chat_input = '';
-		$scope.chats.push(newChat);
+		$scope.chats.push(createChatObject(chat, false));
 		
+		var requestObject = createRequestObject('message', chat);
+		requestObject.ShowAll = true;
 		if (isGivenQueryTooShort(chat)) {
-			$scope.chats.push({ is_bot: true, message: 'נא להקליד יותר תווים'});
+			$scope.chats.push(createChatObject('נא להקליד יותר תווים', true));
 			return;
 		}
 		
@@ -371,19 +372,38 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 		httpExtension.sendGet(createRequestObject('message', chat)).success(function(data) {
 			$scope.bot_is_typing = false;
 
+
+			var queryMessage = '';
 			var metadata = data.splice(0,1)[0];
-			var query = metadata && metadata.templateData && metadata.templateData.query;
-			if (query) {
-				var queryMessage = 'הנה מה שמצאתי עבור ' + metadata.templateData.query;
-				var metadataChat = { is_bot: true, message: queryMessage};
-				$scope.chats.push(metadataChat);
-			}
+			var query = (metadata && metadata.templateData && metadata.templateData.query) || '';
+	
+			var responseChat = createChatObject(query, true);
+			responseChat.persons = data;
 			
-			var newChat = { is_bot: true, persons: data };
-			$scope.chats.push(newChat);
+			$scope.chats.push(responseChat);
+			
+			if (metadata && metadata.shouldShowSeeMore) {
+			//	$scope.chats.push({ is_bot: true, message: 'יש יותר תוצאות, להציג את כולם?'});
+			}
 
 		});
 	};
+	
+	function createChatObject(message, isBot) {
+		var now = new Date();
+		var timeString = pad(now.getHours(), 2) + ':' + pad(now.getMinutes(), 2);
+		return {
+			is_bot: isBot,
+			message: message,
+			time: timeString
+			};
+	}
+	
+	function pad(num, size) {
+		var s = num+"";
+		while (s.length < size) s = "0" + s;
+		return s;
+	}
 	
 
     // TODO(Josh&Ed): This seems pretty bad.

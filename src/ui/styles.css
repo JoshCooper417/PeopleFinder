@@ -9,7 +9,7 @@ body{
 .everything-wrapper {
     font-family: Tahoma;
     min-width: 695px;
-    padding: 32px 44px;
+    padding: 32px 0;
 }
 
 .bottom-row-list {
@@ -243,6 +243,7 @@ div md-input-container .md-input{
     padding: 0 0 12px 24px;
     padding-bottom: 12px;
     display: inline-block;
+	text-align: right;
 }
 
 .pin-wrapper {
@@ -397,9 +398,7 @@ div md-input-container .md-input{
 
 
 .chat-window-wrapper {
-	background: #DED9D5;
-	padding: 20px;
-    margin-bottom: 16px;
+	padding: 20px 0;
 }
 
 .chat-from-me {
@@ -408,21 +407,63 @@ div md-input-container .md-input{
 
 .chat-from-bot,
 .chat-from-me {
-	margin: 3px 0;
+	margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 8px;
+
 }
 
 .actual-message {
-	padding: 6px 8px;
 	border-radius: 4px;
 	max-width: 50%;
-
     display: inline-block;
 }
 
-.chat-from-bot > .actual-message {
-	background: white;
+.chat-from-bot {
+	background: rgb(209, 229, 167);
 }
 
-.chat-from-me > .actual-message {
-	background: #DBF7C5;
+.chat-from-me {
+	background: rgb(232, 236, 254);
+}
+
+.persons-wrapper {
+	margin-top: 16px;
+}
+
+.triangle-wrapper {
+	position: relative;
+	width: 10px;
+}
+
+.triangle-bot,
+.triangle-me {
+	margin: 0 0 15px 0;
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+	position: absolute;
+    top: 13px;
+}
+
+.triangle-bot {
+	border-left: 10px solid rgb(209, 229, 167);
+}
+
+.triangle-me {
+	border-right: 10px solid rgb(232, 236, 254);
+	
+}
+
+td {
+	padding: 0;
+}
+
+.time {
+	color: #999;
+}
+
+.bot-input {
+	outline: none;
 }
