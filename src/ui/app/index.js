@@ -375,10 +375,9 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 
 			var queryMessage = '';
 			var metadata = data.splice(0,1)[0];
-			var query = metadata && metadata.templateData && metadata.templateData.query;
-			var queryMessage = query ? 'הנה מה שמצאתי עבור ' + query : '';
-			
-			var responseChat = createChatObject(queryMessage, true);
+			var query = (metadata && metadata.templateData && metadata.templateData.query) || '';
+	
+			var responseChat = createChatObject(query, true);
 			responseChat.persons = data;
 			
 			$scope.chats.push(responseChat);
