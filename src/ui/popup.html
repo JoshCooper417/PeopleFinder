@@ -33,6 +33,9 @@
 			   <td class="triangle-wrapper"><div ng-hide="!chat.is_bot" class="triangle-bot"></td>
 				<td>
 			   <div ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot, 'action-chat': chat.action}">
+				   <div ng-if="chat.didYouMeanTranslated">
+				      אני מניח שהתכוונת ל <b>{{chat.didYouMeanTranslated}}</b> 😉
+				   </div>
 				   <div class="actual-message" ng-if="chat.message">{{chat.message}}</div>
 				   <div class="persons-wrapper">
 					  <md-list ng-repeat="person in chat.persons" style="padding: 6px 0">

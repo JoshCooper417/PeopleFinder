@@ -372,10 +372,9 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 		httpExtension.sendGet(createRequestObject('message', chat)).success(function(data) {
 			$scope.bot_is_typing = false;
 
-
 			var metadata = data.splice(0,1)[0];
 			var queryMessage = '';
-			if(data.length == 0) {
+			if (data.length == 0) {
 				queryMessage = "מצטער, לא נמצאו תוצאות...";
 			}
 			else {
@@ -387,6 +386,10 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 			responseChat.persons = data;
 			
 			responseChat.action = metadata.templateData.action;
+			
+			if (metadata.originalInput != metadata.translatedInput) {
+				response.didYouMeanTranslated = metadata.translatedInput;
+			}
 			
 			$scope.chats.push(responseChat);
 			
