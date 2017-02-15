@@ -178,8 +178,15 @@
 						  				</div>
 						  			</div>
 
-						  			<div class="tag-adder"
+                    <!-- For Hackathon -->
+                    <!--
+                    <div class="tag-adder"
 						  				 ng-if="canAddTags(person) && !person.hide_show_more_tags"
+						  				 title="הסף תג על עצמך"
+						  				 ng-click="getTagsForPerson(person)">+</div>
+                     -->
+                     <!-- replace it below -->
+						  			<div class="tag-adder"
 						  				 title="הסף תג על עצמך"
 						  				 ng-click="getTagsForPerson(person)">+</div>
 					  				 <select ng-if="person.tagOptions && person.tagOptions.length"
@@ -213,7 +220,7 @@
 	<div  ng-click="isInBotMode = true">GET HELP FROM BOT</div>
 	
 
-	<div ng-hide="!isAdmin">
+	<div ng-hide="isAdmin">
 		<div class="admin-add-more-tags">
 			 הוסף עוד תגים (לאדמינים בלבד)
 		</div>

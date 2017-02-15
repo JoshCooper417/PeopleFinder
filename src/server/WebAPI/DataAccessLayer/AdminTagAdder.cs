@@ -10,11 +10,11 @@ namespace WebAPI.DataAccessLayer
     {
         public static IEnumerable<object> AddTag(string tagToAdd, bool isTagForAnyone)
         {           
-            if (!CurrentMisparIshi.IsAdmin())
-            {
-                return createResponseObject(
-                    "You're not an admin, what are you doing here??");
-            }
+            //if (!CurrentMisparIshi.IsAdmin())
+            //{
+            //    return createResponseObject(
+            //        "You're not an admin, what are you doing here??");
+            //}
 
             if (tagToAdd.Contains(" "))
             {
