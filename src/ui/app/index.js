@@ -5,7 +5,7 @@
 //var SERVER = 'http://app0111laka01.iaf/PplFndr/api/values/';
 var SERVER = 'http://localhost:34781/api/values/';
 
-angular.module('phoneLocator',['ngMaterial']);
+angular.module('phoneLocator',['ngMaterial', 'ngAnimate', 'ngAria']);
 
 angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneService, httpExtension) {
     var MINIMUM_QUERY_LENGTH = 3;
@@ -17,9 +17,11 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
         else
             window.phoneLocatorScope.peopleToEmail = [];
     });
+	
+	$scope.isInBotMode = false;
 
     $scope.peopleToEmail = [];
-    
+
     $scope.AppStates = {
         DEFAULT: 0,
         SHOW_PEOPLE: 1,
@@ -73,7 +75,7 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
         if (opt_forceNewRequest) {
             logRequest(LOG_TYPES.SEE_ALL_PRESSED);
         }
-        
+
         // We also cancel the previous timeout every time we make a query as an added safety
         // mechanism (e.g., if the user presses enter to send a request).
         clearSendQueryTimeout();
@@ -97,11 +99,6 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
      // with the second.
      var currentRequestQuery;
      function handleResponse(data, query) {
-        if (query != currentRequestQuery) {
-            // Abandon the response because we'll have a more updated one soon.
-            return;
-        }
-
         $scope.appState = $scope.AppStates.SHOW_PEOPLE;
         // The first item in data should be the metadata object. Everything else is people.
         $scope.metadata = data.splice(0,1)[0];
@@ -112,19 +109,23 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
         clearTimeout(sendQueryTimeout);
      };
 
+     function isQueryTooShort() {
+		 return isGivenQueryTooShort($scope.query);
+     }
+
      // A valid query must contain at least one space-separated word that is at least
      // MINIMUM_QUERY_LENGTH characters long.
-     function isQueryTooShort() {
-        var words = $scope.query.split(' ');
+     function isGivenQueryTooShort(query) {
+        var words = query.split(' ');
         for (var i = 0; i < words.length; i++) {
             if (words[i].length >= MINIMUM_QUERY_LENGTH) {
                 return false;
             }
         }
-        return true;        
+        return true;
      }
 
-     
+
      // If the user taps on an email address field, close the extension and redirect to an email URL.
      $scope.sendEmail = function(email) {
         logRequest(LOG_TYPES.MAIL);
@@ -134,8 +135,25 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
                 chrome.tabs.remove(tab.id);
             }, 500);
         });
+		//sendEmail(email);
      };
 
+	 /*function sendEmail(email){
+  try{
+    var theApp = new ActiveXObject("Outlook.Application");
+    var objNS = theApp.GetNameSpace('MAPI');
+    var theMailItem = theApp.CreateItem(0); // value 0 = MailItem
+    theMailItem.to = email;
+    //theMailItem.Subject = ('test');
+    //theMailItem.Body = ('test');
+    //theMailItem.Attachments.Add("C\\file.txt");
+    theMailItem.display();
+   }
+    catch (err) {
+       alert(err.message);
+    } 
+}*/
+	 
      $scope.sendMailToPeople = function(persons) {
         var emails = '';
         for (var i = 0; i < persons.length; i++) {
@@ -329,6 +347,44 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 
 
     logRequest(LOG_TYPES.INITIAL);
+	
+	
+	// Chats is an array of objects of the form
+	// { message: "Hello world", is_bot: true/false, person: person }
+	$scope.chats = [];
+	
+	$scope.isInBotMode = true;
+	$scope.chats.push({ message: 'שלום, את מי מחפשים?', is_bot: true});
+
+	$scope.submitChat = function() {
+		var chat = $scope.chat_input;
+		var newChat = { message: chat, is_bot: false};
+		$scope.chat_input = '';
+		$scope.chats.push(newChat);
+		
+		if (isGivenQueryTooShort(chat)) {
+			$scope.chats.push({ is_bot: true, message: 'נא להקליד יותר תווים'});
+			return;
+		}
+		
+		$scope.bot_is_typing = true;
+		httpExtension.sendGet(createRequestObject('message', chat)).success(function(data) {
+			$scope.bot_is_typing = false;
+
+			var metadata = data.splice(0,1)[0];
+			var query = metadata && metadata.templateData && metadata.templateData.query;
+			if (query) {
+				var queryMessage = 'הנה מה שמצאתי עבור ' + metadata.templateData.query;
+				var metadataChat = { is_bot: true, message: queryMessage};
+				$scope.chats.push(metadataChat);
+			}
+			
+			var newChat = { is_bot: true, persons: data };
+			$scope.chats.push(newChat);
+
+		});
+	};
+	
 
     // TODO(Josh&Ed): This seems pretty bad.
    //  window.setInterval(function() {logRequest(LOG_TYPES.TIMER)}, 1000);
@@ -374,3 +430,45 @@ var PROBLEMATIC_CHARACTERS = ['.', '+', ':', '%'];
 var SESSION_ID = Date.now() + Math.random();
 
 var MAX_NUMBER_OF_EMAILS_IN_URL = 100;
+
+/*hackathon adding*/
+angular.module("phoneLocator").controller("menuPopupCtrl", function($scope) {
+	this.isOpen = false;
+	this.mode = 'md-fling';
+	this.direction = 'left';
+	
+	$scope.sendEmail = function(email) {
+        var emailUrl = 'mailto:' + email;
+        chrome.tabs.create({ url: emailUrl, active: false }, function (tab) {
+            setTimeout(function() {
+                chrome.tabs.remove(tab.id);
+            }, 500);
+        });
+		//sendEmail(email);
+     };
+	
+	$scope.skypeChat = function(userName) {
+		var user = 'itay.fichman';
+		var userTemp = "s" + userName;
+        var skypeUrl = 'skype:' + user + "?chat";
+        chrome.tabs.create({ url: skypeUrl, active: false }, function (tab) {
+            setTimeout(function() {
+                chrome.tabs.remove(tab.id);
+            }, 500);
+        });
+     };
+	 
+	 $scope.skypeCall = function(userName) {
+		var user = 'itay.fichman';
+		var userTemp = "s" + userName;
+        var skypeUrl = 'skype:' + user + "?call";
+        chrome.tabs.create({ url: skypeUrl, active: false }, function (tab) {
+            setTimeout(function() {
+                chrome.tabs.remove(tab.id);
+            }, 500);
+        });
+     };
+	 
+	
+});
+/*hackathon adding*/

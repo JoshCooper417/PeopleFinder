@@ -72,6 +72,7 @@ namespace WebAPI.DataAccessLayer
                 .ToList();
         }
 
+
         private object createMetadataObject(ITemplate template,
             IEnumerable<object> persons,
             DbRequest dbRequest)
@@ -84,7 +85,8 @@ namespace WebAPI.DataAccessLayer
                 && persons.Count() == dbRequest.NumberToTake;
             
             return new {
-                query = template.MetdataDisplayValue(),
+                //query = template.MetdataDisplayValue(),
+                templateData = template.AddMetadata(),
                 shouldShowSeeMore = listWasCutOff,
                 isAdmin = CurrentMisparIshi.IsAdmin(),
                 nonAdminsCanAddTags = false

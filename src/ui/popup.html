@@ -14,39 +14,7 @@
 </head>
 
 <body ng-controller="FinderCtrl">
- <div class="everything-wrapper">
-	<div layout="row" layout-align="center" class="input-wrapper">
-		<form name="phoneForm" ng-submit="submitQuery()">
-			<div class="main-input-label">חיפוש:</div>
-			<input type="text"
-				ng-change="onTextChange()"
-				ng-trim="false"
-				ng-model="query"
-				class="main-input"
-				placeholder="{{'שם, תפקיד, יחידה...'}}"
-				autofocus></input>
-			<div class="help-button-wrapper">
-				<div class="help-button">?</div>
-				<div class="help-floater">
-					<div>ניתן לחפש לפי כל מיני נתונים כגון:</div>
-					<ul>
-						<li>שם
-						<li>תפקיד
-						<li>מספר טלפון
-						<li>יחידה
-						<li>דרגה
-					</ul>
-					<div>אפשר גם שילובים שונים:</div>
-					<ul>
-						<li><i>עומר חדשנות</i>
-						<li><i>גל אופק</i>
-						<li><i>בחא 8 סגן</i>
-					</ul>
-				</div>
-			</div>
-		</form>
-	</div>
-
+ <div class="everything-wrapper" ng-hide="isInBotMode">
 	<div class="mailing-list">
 		<div ng-if="peopleToEmail.length" class="mailing-list-title">רשימת תפוצה</div>
 		<div ng-repeat="person in peopleToEmail track by $index">
@@ -58,23 +26,16 @@
     	<button ng-if="peopleToEmail!=0" ng-click="sendMailToPeople(peopleToEmail)">שלח מייל</button>
     	<button ng-if="peopleToEmail!=0" ng-click="clearPinned()">נקה</button>
     </div>
-	<div>
-	    <h3 ng-if="appState == AppStates.NOT_ENOUGH_CHARACTERS" class="header">נא להקליד יותר תווים</h3>
-		<div ng-if="appState == AppStates.SHOW_PEOPLE">
-		  <div class="metanote">
-			  <span ng-switch on="people.length">
-			  	  <span ng-switch-when="0">לא נמצאו רישומים לשאילתה</span>
-			  	  <span ng-switch-when="1">תוצאה אחת עבור </span>
-			  	  <span ng-switch-default>
-			  	  	{{people.length}} תוצאות
-			  	  	<span ng-if="metadata.shouldShowSeeMore">הראשונות </span>
-			  	  	עבור
-		  	  	  </span>
-			  "<b>{{metadata.query}}</b>"
-			  </span>
-		  </div>
-		  <md-list ng-repeat="person in people">
-			<div class="pin-wrapper"
+</div>
+
+
+<div class="everything-wrapper" ng-hide="!isInBotMode">
+	<div class="chat-window-wrapper">
+		<div ng-repeat="chat in chats" class="chat-wrapper"
+			ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot}">
+			<div class="actual-message" ng-if="chat.message">{{chat.message}}</div>
+		  <md-list ng-repeat="person in chat.persons" style="padding: 1px 0">
+			<div class="pin-wrapper remove-outline"
 				  title="הוסף לתפוצה"
 				  ng-click="togglePinPerson(person)"
 				  ng-if="person.mail">
@@ -113,14 +74,52 @@
 						                <input ng-model="field.value" readonly />
 						            </md-input-container>
 					        	</div>
-					        	<div flex="15">
+					        	<!--<div flex="15">
 						        	<div class="email">
 							            <img src="/lib/mail.png"
 							            	ng-if="person.mail"
 							            	ng-click="sendEmail(person.mail)"
 							            	title="שלח מייל">
 							        </div>
-						  		</div>
+						  		</div> -->
+								
+								<!-- hackathon adding -->
+								<!--<div flex="15">
+						        	<div class="skype">
+									<a href="skype:itay.fichman;?chat">
+									<img src="/lib/skype.png"
+							            	ng-if="person.mail"
+							            	ng-click="sendEmail(person.mail)"
+							            	title="פתח צ'אט">
+									</a>
+							        </div>
+						  		</div>-->
+								
+								<div layout="column" ng-cloak class="menuPopup">
+										<div class="lock-size" layout="row" layout-align="center center" ng-controller="menuPopupCtrl as demo">
+											<md-fab-speed-dial md-open="demo.isOpen" md-direction="{{demo.direction}}" ng-class="demo.mode">
+												<md-fab-trigger>
+													<md-button aria-label="menu" class="md-fab md-primary">
+														<md-icon md-svg-src="/lib/menu.svg" class="menuPopupIcons"></md-icon>
+													</md-button>
+												</md-fab-trigger>
+												
+												<md-fab-actions>
+													<md-button aria-label="Mail" class="md-fab md-raised md-mini" ng-click="sendEmail(person.mail)">
+														<md-icon md-svg-src="/lib/envelope.svg" title="שלח מייל"></md-icon>
+													</md-button>
+													<md-button aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeChat(person.mispar_ishi)">
+															<md-icon md-svg-src="/lib/skype.svg" title="התחל צ'אט בסקייפ"></md-icon>
+													</md-button>
+													<md-button aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeCall(person.mispar_ishi)">
+															<md-icon md-svg-src="/lib/phone-receiver.svg" title="התחל שיחה בסקייפ"></md-icon>
+													</md-button>
+												</md-fab-actions>
+												
+											</md-fab-speed-dial>
+										</div>
+								</div>
+								<!-- hackathon adding -->
 					  		</div>
 				            <div flex ng-hide="!person.showMore" class="slideDown">
 			            		<div ng-class="expand-collapse-content" class="extra-list-wrapper">
@@ -198,34 +197,21 @@
 		  	</div>
 	        </md-list-item>
 		  </md-list>
-		  <div ng-if="showSendMailToAllButton()" style="text-align: center">
-		  	<div class="send-everyone" ng-click="sendMailToPeople(people)">לשלוח מייל לכל הרשימה</div>
-		  </div>
-		  <div ng-if="metadata.shouldShowSeeMore"
-		  	   class="see-more"
-		  	   ng-click="submitQuery(true)">
-		  	   להציג את כולם (עלול להיות איטי)
-		  </div>
 		</div>
-		<div ng-if="appState == AppStates.LOADING"><div class="spinner"></div></div>
-	    <h3 ng-if="appState == AppStates.ERROR" class="header">משהו לא תקין קרה...נא ליצור קשר עם שון דיננברג 0369-7820</h3>
+		<div ng-if="bot_is_typing" class="chat-wrapper chat-from-bot">
+			<div class="actual-message">מחפש...</div>
+		</div>
 	</div>
-
-	<div ng-hide="!isAdmin">
-		<div class="admin-add-more-tags">
-			 הוסף עוד תגים (לאדמינים בלבד)
-		</div>
-		<div >
-            <form name="phoneForm" ng-submit="submitTag()">
-            	<span>לאפשר לכולם לתייג את עצמם</span>
-            	<input type="checkbox" ng-model="tagToAddIsForAnyone">
-            	<div>
-					<input type="text"  ng-model="tagToAdd">
-				</div>
-            </form>
-		</div>
-		<div>{{tagAddedMessage}}</div>
-	</div>
+	<form ng-submit="submitChat()">
+		<input type="text"
+			ng-trim="false"
+			ng-model="chat_input"
+			class="main-input"
+			placeholder="{{'תבקש משהו...'}}"input>
+	</form>
+	<div ng-click="isInBotMode = false">EXIT</div>
 </div>
+
+
 </body>
 </html>
