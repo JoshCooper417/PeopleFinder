@@ -126,23 +126,29 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="DataAccessLayer\ActionToTemplate.cs" />
     <Compile Include="DataAccessLayer\AdminTagAdder.cs" />
     <Compile Include="DataAccessLayer\AlertGenerator.cs" />
+    <Compile Include="DataAccessLayer\BotMessageHandler.cs" />
     <Compile Include="DataAccessLayer\InitialMetadataGenerator.cs" />
     <Compile Include="DataAccessLayer\CurrentMisparIshi.cs" />
     <Compile Include="DataAccessLayer\DbReader.cs" />
     <Compile Include="DataAccessLayer\DbRequest.cs" />
     <Compile Include="DataAccessLayer\DebugWriter.cs" />
     <Compile Include="DataAccessLayer\ITemplate.cs" />
+    <Compile Include="DataAccessLayer\FieldsAliases.cs" />
     <Compile Include="DataAccessLayer\ParamsOnlyTemplate.cs" />
     <Compile Include="DataAccessLayer\TagAdder.cs" />
     <Compile Include="DataAccessLayer\TagGetter.cs" />
     <Compile Include="DataAccessLayer\TagToPrimeDictionary.cs" />
     <Compile Include="DataAccessLayer\Templates.cs" />
-    <Compile Include="DataAccessLayer\WhatIsTemplate.cs" />
     <Compile Include="DataAccessLayer\TermExtractions.cs" />
     <Compile Include="DataAccessLayer\InputCleaner.cs" />
     <Compile Include="DataAccessLayer\PersonJsonWrapper.cs" />
+    <Compile Include="DataAccessLayer\TillWhenTemplate.cs" />
+    <Compile Include="DataAccessLayer\WhatIsTemplate.cs" />
+    <Compile Include="DataAccessLayer\WhenTemplate.cs" />
+    <Compile Include="DataAccessLayer\WhereIsTemplate.cs" />
     <Compile Include="DataAccessLayer\WhatIDoAdder.cs" />
     <Compile Include="DataAccessLayer\WhereMatchesQuery.cs" />
     <Compile Include="DataAccessLayer\EnglishToHebrew.cs" />
@@ -240,9 +246,7 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

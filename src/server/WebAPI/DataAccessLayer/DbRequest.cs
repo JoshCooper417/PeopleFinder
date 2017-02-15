@@ -11,7 +11,7 @@ namespace WebAPI.DataAccessLayer
     {
         private static Regex isNumberRegex = new Regex(@"^\d+-?\d+$");
 
-        private static int NUMBER_TO_SHOW_IN_FIRST_TRY = 15;
+        private static int NUMBER_TO_SHOW_IN_FIRST_TRY = 5;
 
         public List<string> StandardInputValues { get; set; }
         public long Tags { get; set; }

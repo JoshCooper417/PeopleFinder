@@ -9,6 +9,18 @@ namespace WebAPI.DataAccessLayer
     public class ParamsOnlyTemplate : ITemplate
     {
         private string input;
+        private string lookupValue;
+        private string lookupField;
+
+        public string getLookupValue()
+        {
+            return null;
+        }
+
+        public string getLookupField()
+        {
+            return null;
+        }
 
         public Regex MatchingRegex()
         {
@@ -31,5 +43,12 @@ namespace WebAPI.DataAccessLayer
             return input;
         }
 
+        public object AddMetadata()
+        {
+            return new
+            {
+                query = "אלו התוצאות שמצאתי עבור " + input + ":"
+            };
+        }
     }
 }

@@ -1,7 +1,15 @@
+@font-face {
+    font-family: OpenSansHebrew-Regular;
+    src: url('/lib/fonts/OpenSansHebrew-Regular.ttf');
+}
+
+body{
+	font-family:OpenSansHebrew-Regular;
+}
 .everything-wrapper {
     font-family: Tahoma;
     min-width: 695px;
-    padding: 32px 44px;
+    padding: 32px 0;
 }
 
 .bottom-row-list {
@@ -63,6 +71,32 @@ div md-input-container .md-input{
     width: 42px;
     margin: 13px 6px;
 }
+
+/*hackathon adding*/
+.skype {
+	left: 100px;
+    position: absolute;
+}
+
+.skype img{
+    cursor: pointer;
+    width: 42px;
+    margin: 13px 6px;
+}
+
+.menuPopup {
+	left: 20vh;
+    position: absolute;
+}
+
+.menuPopupIcons {
+	width: 35px !important;
+}
+
+.remove-outline{
+	outline:none;
+}
+/*hackathon adding*/
 
 .pinUp {
     margin-left:10px;
@@ -209,6 +243,7 @@ div md-input-container .md-input{
     padding: 0 0 12px 24px;
     padding-bottom: 12px;
     display: inline-block;
+	text-align: right;
 }
 
 .pin-wrapper {
@@ -361,6 +396,89 @@ div md-input-container .md-input{
     max-width: 50%;
 }
 
-.tag-name{
 
+.chat-window-wrapper {
+	padding: 20px 0;
+}
+
+.chat-from-me {
+	text-align: left;
+}
+
+.chat-from-bot,
+.chat-from-me {
+	margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 8px;
+
+}
+
+.actual-message {
+	border-radius: 4px;
+	max-width: 50%;
+    display: inline-block;
+}
+
+.chat-from-bot {
+	background: rgb(209, 229, 167);
+}
+
+.chat-from-me {
+	background: rgb(232, 236, 254);
+}
+
+.persons-wrapper {
+	margin-top: 16px;
+}
+
+.triangle-wrapper {
+	position: relative;
+	width: 10px;
+}
+
+.triangle-bot,
+.triangle-me {
+	margin: 0 0 15px 0;
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+	position: absolute;
+    top: 13px;
+}
+
+.triangle-bot {
+	border-left: 10px solid rgb(209, 229, 167);
+}
+
+.triangle-me {
+	border-right: 10px solid rgb(232, 236, 254);
+	
+}
+
+td {
+	padding: 0;
+}
+
+.time {
+	color: #999;
+}
+
+.bot-input {
+	outline: none;
+}
+
+.action-chat .list-wrapper {
+	background: rgb(240,240,240);
+	margin: 0 50px;
+	border-bottom: solid 1px;
+}
+
+.action-chat md-list {
+	padding: 0 !important;
+	display: block;
+}
+
+.action-chat md-list-item {
+	border-radius: 0;
 }

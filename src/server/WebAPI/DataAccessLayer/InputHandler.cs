@@ -16,19 +16,19 @@ namespace WebAPI.DataAccessLayer
         //     expects.
         // (4) Return a list containing a Metadata object and the list of JSON
         //     objects for each person.
-        public IEnumerable<object> GetPersons(string inputInEnglish, bool shouldShowAll)
+        public IEnumerable<object> GetPersons(string input, bool shouldShowAll)
         {
-            var input = EnglishToHebrew.maybeConvertToHebrew(inputInEnglish);
+            var translatedInput = EnglishToHebrew.maybeConvertToHebrew(input);
 
             DbRequest dbRequest = null;
             ITemplate templateToUse = null;
             foreach (ITemplate template in Templates.CreateTemplateList())
             {
-                if (!template.MatchingRegex().IsMatch(input))
+                if (!template.MatchingRegex().IsMatch(translatedInput))
                 {
                     continue;
                 }
-                dbRequest = template.MakeDbRequest(input, shouldShowAll);
+                dbRequest = template.MakeDbRequest(translatedInput, shouldShowAll);
                 if (dbRequest == null)
                 {
                     continue;
@@ -43,7 +43,7 @@ namespace WebAPI.DataAccessLayer
 
             var returnObjects = createMatchingPersonsList(dbRequest, templateToUse);
             var metadataObject =
-                createMetadataObject(templateToUse, returnObjects, dbRequest);
+                createMetadataObject(templateToUse, returnObjects, dbRequest, input, translatedInput);
             returnObjects.Insert(0, metadataObject);
 
             return returnObjects;
@@ -59,7 +59,7 @@ namespace WebAPI.DataAccessLayer
         {
             // Post process the selected entities; adjusting and renaming some fields.
             var personJsonsFromDb = DbReader.GetPersonsFromDb(dbRequest)
-                .Select(person => new PersonJsonWrapper(person))
+                .Select(person => new PersonJsonWrapper(person, templateToUse.getLookupField()))
                 .ToList();
 
             var processedPersonJsons = templateToUse.ProcessPersonJsons(personJsonsFromDb);
@@ -75,7 +75,7 @@ namespace WebAPI.DataAccessLayer
 
         private object createMetadataObject(ITemplate template,
             IEnumerable<object> persons,
-            DbRequest dbRequest)
+            DbRequest dbRequest, string originalInput, string translatedInput)
         { 
             // TODO(josh): This is a cheating heuristic that is occasionally
             // incorrect.
@@ -83,11 +83,14 @@ namespace WebAPI.DataAccessLayer
             var listWasCutOff =
                 !dbRequest.ShouldShowAll
                 && persons.Count() == dbRequest.NumberToTake;
-            
+
             return new {
-                query = template.MetdataDisplayValue(),
+                //query = template.MetdataDisplayValue(),
+                templateData = template.AddMetadata(),
                 shouldShowSeeMore = listWasCutOff,
                 isAdmin = CurrentMisparIshi.IsAdmin(),
+                originalInput = originalInput,
+                translatedInput = translatedInput,
                 nonAdminsCanAddTags = false
             };
         }

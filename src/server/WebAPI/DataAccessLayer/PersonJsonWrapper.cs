@@ -19,7 +19,7 @@ namespace WebAPI.DataAccessLayer
 
         private PersonFromDbWrapper person;
 
-        public PersonJsonWrapper(PersonFromDbWrapper person)
+        public PersonJsonWrapper(PersonFromDbWrapper person, string lookupField)
         {
             this.person = person;
 
@@ -29,10 +29,10 @@ namespace WebAPI.DataAccessLayer
             // S emails before the M emails.
             this.Mail = person.Mail == null ? ' ' : person.Mail.FirstOrDefault();
 
-            this.JsonFromClient = toJsonObject(person);
+            this.JsonFromClient = toJsonObject(person, lookupField);
         }
 
-        private object toJsonObject(PersonFromDbWrapper person)
+        private object toJsonObject(PersonFromDbWrapper person, string lookupField)
         {
             // TODO(Josh): Some of these fields ar eonly here for
             // backwards-compatibility.
@@ -49,8 +49,8 @@ namespace WebAPI.DataAccessLayer
                 darga = person.Darga,
                 birthday = this.getBirthdayDisplayString(),
                 is_birthday_today = this.isBirthdayToday(),
-                top_row = this.createTopRowJson(),
-                bottom_row = this.createBottomRowJson(),
+                top_row = this.createTopRowJson(lookupField),
+                bottom_row = this.createBottomRowJson(lookupField),
                 tags = this.getTags(),
                 is_me = this.IsMe,
                 what_i_do = person.WhatIDo
@@ -58,36 +58,189 @@ namespace WebAPI.DataAccessLayer
             };
         }
 
-        private IEnumerable<object> createTopRowJson()
+        private IEnumerable<object> createTopRowJson(string lookupField)
         {
             var objects = new List<object>();
-            objects.maybeAddDisplayFieldObject("שם", this.getDisplayName());
-            objects.maybeAddDisplayFieldObject("נייד", person.Mobile);
-            objects.maybeAddDisplayFieldObject("תפקיד", person.LongWorkTitle);
+
+            List<string> fields = new List<string>();
+
+            // always add display name 
+            objects.maybeAddDisplayFieldObject(FieldsAliases.DISPLAY_NAME, this.getDisplayName());
+
+            if (lookupField != null && lookupField != "")
+            {
+                fields = FieldsAliases.getJsonFields(lookupField);
+
+                foreach (string field in fields)
+                {
+                    switch (field)
+                    {
+                        case FieldsAliases.BIRTHDAY:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, this.getBirthdayDisplayString());
+                                break;
+                            };
+                        case FieldsAliases.MISPAR_ISHI:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.MisparIshi);
+                                break;
+                            }
+                        case FieldsAliases.FIRST_NAME:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.GivenName);
+                                break;
+                            };
+                        case FieldsAliases.LAST_NAME:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.Surname);
+                                break;
+                            };
+                        case FieldsAliases.JOB:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.LongWorkTitle);
+                                break;
+                            };
+                        case FieldsAliases.MOBILE_PHONE:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.Mobile);
+                                break;
+                            };
+                        case FieldsAliases.WORK_PHONE:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.WorkPhone);
+                                break;
+                            };
+                        case FieldsAliases.RANK:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.Darga);
+                                break;
+                            };
+                        case FieldsAliases.END_OF_SERVICE:
+                            {
+                                var endOfServiceDisplayString = "";
+                                if (person.EndOfService.HasValue)
+                                {
+                                    var endOfService = person.EndOfService.Value;
+                                    endOfServiceDisplayString = endOfService.ToString("dd/MM/yyyy");
+                                }
+                                objects.maybeAddDisplayFieldObject(FieldsAliases.END_OF_SERVICE, endOfServiceDisplayString);
+                                break;
+                            };
+                        case FieldsAliases.SEX:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.Sex);
+                                break;
+                            };
+                        case FieldsAliases.MAIL:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.Mail);
+                                break;
+                            };
+                        case FieldsAliases.FAX:
+                            {
+                                objects.maybeAddDisplayFieldObject(field, person.Fax);
+                                break;
+                            };
+                    }
+                }
+
+            }
+
+            // if only defaults, set this records
+            if (objects.Count <= 1)
+            {
+                objects.maybeAddDisplayFieldObject(FieldsAliases.MOBILE_PHONE, person.Mobile);
+            }
+
+            // always add job unless already added
+            if (!fields.Contains(FieldsAliases.JOB))
+            {
+                objects.maybeAddDisplayFieldObject(FieldsAliases.JOB, person.LongWorkTitle);
+            }
+
             return objects;
         }
 
-        private IEnumerable<object> createBottomRowJson()
+        private IEnumerable<object> createBottomRowJson(string lookupField)
         {
             var objects = new List<object>();
-            objects.maybeAddDisplayFieldObject(
-                "מס' עבודה", person.WorkPhone);
-            objects.maybeAddDisplayFieldObject(
-                "תיאור", person.JobTitle);
-            objects.maybeAddDisplayFieldObject(
-                "דרגה", person.Darga);
-            objects.maybeAddDisplayFieldObject(
-                "יום הולדת", this.getBirthdayDisplayString());
-            objects.maybeAddDisplayFieldObject(
-                "עבודה 2", person.OtherTelephone);
-            objects.maybeAddDisplayFieldObject(
-                "בית", person.HomePhone);
-            objects.maybeAddDisplayFieldObject(
-                "פקס", person.Fax);
-            objects.maybeAddDisplayFieldObject(
-                "מין", person.Sex);
-            objects.maybeAddDisplayFieldObject(
-                "מייל", person.Mail);
+
+            if (lookupField != null && lookupField != "")
+            {
+                List<string> fields = FieldsAliases.getJsonFields(lookupField);
+
+                if (!fields.Contains(FieldsAliases.MISPAR_ISHI))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.MISPAR_ISHI, person.MisparIshi);
+                }
+
+                if (!fields.Contains(FieldsAliases.FIRST_NAME))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.FIRST_NAME, person.GivenName);
+                }
+
+                if (!fields.Contains(FieldsAliases.LAST_NAME))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.LAST_NAME, person.Surname);
+                }
+
+                if (!fields.Contains(FieldsAliases.MOBILE_PHONE))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.MOBILE_PHONE, person.Mobile);
+                }
+
+                if (!fields.Contains(FieldsAliases.WORK_PHONE))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.WORK_PHONE, person.WorkPhone);
+                }
+
+                if (!fields.Contains(FieldsAliases.BIRTHDAY))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.BIRTHDAY, this.getBirthdayDisplayString());
+                }
+
+                if (!fields.Contains(FieldsAliases.RANK))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.RANK, person.Darga);
+                }
+
+                if (!fields.Contains(FieldsAliases.END_OF_SERVICE))
+                {
+                    var endOfServiceDisplayString = "";
+                    if (person.EndOfService.HasValue)
+                    {
+                        var endOfService = person.EndOfService.Value;
+                        endOfServiceDisplayString = endOfService.ToString("dd/MM/yyyy");
+                    }
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.END_OF_SERVICE, endOfServiceDisplayString);
+                }
+
+                if (!fields.Contains(FieldsAliases.SEX))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.SEX, person.Sex);
+                }
+
+                if (!fields.Contains(FieldsAliases.MAIL))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.MAIL, person.Mail);
+                }
+
+                if (!fields.Contains(FieldsAliases.FAX))
+                {
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.FAX, person.Fax);
+                }
+            }
+            else
+            {
+                objects.maybeAddDisplayFieldObject(FieldsAliases.BIRTHDAY, this.getBirthdayDisplayString());
+                objects.maybeAddDisplayFieldObject(FieldsAliases.WORK_PHONE, person.WorkPhone);
+                objects.maybeAddDisplayFieldObject(FieldsAliases.RANK, person.Darga);
+                objects.maybeAddDisplayFieldObject(FieldsAliases.SEX, person.Sex);
+                objects.maybeAddDisplayFieldObject(FieldsAliases.MAIL, person.Mail);
+                objects.maybeAddDisplayFieldObject(FieldsAliases.FAX, person.Fax);
+                objects.maybeAddDisplayFieldObject(FieldsAliases.MISPAR_ISHI, person.MisparIshi);
+            }
+
             return objects;
         }
 
@@ -176,9 +329,11 @@ namespace WebAPI.DataAccessLayer
         {
             if (value == null || value.Length == 0)
             {
-                return;
+                list.Add(new { name, value = "N/A" });
+            } else
+            {
+                list.Add(new { name, value });
             }
-            list.Add(new { name, value });
         }
 
         public static object ToJson(this TagPrime tagPrime)

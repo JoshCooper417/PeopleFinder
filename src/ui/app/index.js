@@ -5,7 +5,7 @@
 //var SERVER = 'http://app0111laka01.iaf/PplFndr/api/values/';
 var SERVER = 'http://localhost:34781/api/values/';
 
-angular.module('phoneLocator',['ngMaterial']);
+angular.module('phoneLocator',['ngMaterial', 'ngAnimate', 'ngAria']);
 
 angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneService, httpExtension) {
     var MINIMUM_QUERY_LENGTH = 3;
@@ -99,11 +99,6 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
      // with the second.
      var currentRequestQuery;
      function handleResponse(data, query) {
-        if (query != currentRequestQuery) {
-            // Abandon the response because we'll have a more updated one soon.
-            return;
-        }
-
         $scope.appState = $scope.AppStates.SHOW_PEOPLE;
         // The first item in data should be the metadata object. Everything else is people.
         $scope.metadata = data.splice(0,1)[0];
@@ -114,10 +109,14 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
         clearTimeout(sendQueryTimeout);
      };
 
+     function isQueryTooShort() {
+		 return isGivenQueryTooShort($scope.query);
+     }
+
      // A valid query must contain at least one space-separated word that is at least
      // MINIMUM_QUERY_LENGTH characters long.
-     function isQueryTooShort() {
-        var words = $scope.query.split(' ');
+     function isGivenQueryTooShort(query) {
+        var words = query.split(' ');
         for (var i = 0; i < words.length; i++) {
             if (words[i].length >= MINIMUM_QUERY_LENGTH) {
                 return false;
@@ -129,6 +128,7 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
      // If the user taps on an email address field, close the extension and redirect to an email URL.
      $scope.sendEmail = function(email) {
         logRequest(LOG_TYPES.MAIL);
+
         var emailUrl = 'mailto:' + email;
         chrome.tabs.create({ url: emailUrl, active: false }, function (tab) {
             setTimeout(function() {
@@ -136,7 +136,45 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
             }, 500);
         });
      };
+	
+	$scope.skypeChat = function(misparIshi) {
+		var user = 'itay.fichman';
+		var userTemp = "s" + misparIshi;
+        var skypeUrl = 'skype:' + user + "?chat";
+        chrome.tabs.create({ url: skypeUrl, active: false }, function (tab) {
+            setTimeout(function() {
+                chrome.tabs.remove(tab.id);
+            }, 1000);
+        });
+     };
+	 
+	 $scope.skypeCall = function(userName) {
+		var user = 'itay.fichman';
+		var userTemp = "s" + userName;
+        var skypeUrl = 'skype:' + user + "?call";
+        chrome.tabs.create({ url: skypeUrl, active: false }, function (tab) {
+            setTimeout(function() {
+                chrome.tabs.remove(tab.id);
+            }, 500);
+        });
+     };
 
+	 /*function sendEmail(email){
+  try{
+    var theApp = new ActiveXObject("Outlook.Application");
+    var objNS = theApp.GetNameSpace('MAPI');
+    var theMailItem = theApp.CreateItem(0); // value 0 = MailItem
+    theMailItem.to = email;
+    //theMailItem.Subject = ('test');
+    //theMailItem.Body = ('test');
+    //theMailItem.Attachments.Add("C\\file.txt");
+    theMailItem.display();
+   }
+    catch (err) {
+       alert(err.message);
+    } 
+}*/
+	 
      $scope.sendMailToPeople = function(persons) {
         var emails = '';
         for (var i = 0; i < persons.length; i++) {
@@ -330,6 +368,75 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 
 
     logRequest(LOG_TYPES.INITIAL);
+	
+	
+	// Chats is an array of objects of the form
+	// { message: "Hello world", is_bot: true/false, persons: person }
+	$scope.chats = [];
+	
+	$scope.isInBotMode = true;
+	$scope.chats.push(createChatObject('שלום, את מי מחפשים?', true));
+
+	$scope.submitChat = function() {
+		var chat = $scope.chat_input;
+		$scope.chat_input = '';
+		$scope.chats.push(createChatObject(chat, false));
+		
+		var requestObject = createRequestObject('message', chat);
+		requestObject.ShowAll = true;
+		if (isGivenQueryTooShort(chat)) {
+			$scope.chats.push(createChatObject('נא להקליד יותר תווים', true));
+			return;
+		}
+		
+		$scope.bot_is_typing = true;
+		httpExtension.sendGet(createRequestObject('message', chat)).success(function(data) {
+			$scope.bot_is_typing = false;
+
+			var metadata = data.splice(0,1)[0];
+			var queryMessage = '';
+			if (data.length == 0) {
+				queryMessage = "מצטער, לא נמצאו תוצאות...";
+			}
+			else {
+				queryMessage = (metadata && metadata.templateData && metadata.templateData.query) || '';
+			}
+			
+	
+			var responseChat = createChatObject(queryMessage, true);
+			responseChat.persons = data;
+			
+			responseChat.action = metadata.templateData.action;
+			
+			if (metadata.originalInput != metadata.translatedInput) {
+				responseChat.didYouMeanTranslated = metadata.translatedInput;
+			}
+			
+			$scope.chats.push(responseChat);
+			
+			if (metadata && metadata.shouldShowSeeMore) {
+			//	$scope.chats.push({ is_bot: true, message: 'יש יותר תוצאות, להציג את כולם?'});
+			}
+
+		});
+	};
+	
+	function createChatObject(message, isBot) {
+		var now = new Date();
+		var timeString = pad(now.getHours(), 2) + ':' + pad(now.getMinutes(), 2);
+		return {
+			is_bot: isBot,
+			message: message,
+			time: timeString
+			};
+	}
+	
+	function pad(num, size) {
+		var s = num+"";
+		while (s.length < size) s = "0" + s;
+		return s;
+	}
+	
 
     // TODO(Josh&Ed): This seems pretty bad.
    //  window.setInterval(function() {logRequest(LOG_TYPES.TIMER)}, 1000);
@@ -375,3 +482,12 @@ var PROBLEMATIC_CHARACTERS = ['.', '+', ':', '%'];
 var SESSION_ID = Date.now() + Math.random();
 
 var MAX_NUMBER_OF_EMAILS_IN_URL = 100;
+
+/*hackathon adding*/
+angular.module("phoneLocator").controller("menuPopupCtrl", function($scope) {
+	this.isOpen = false;
+	this.mode = 'md-fling';
+	this.direction = 'left';
+
+});
+/*hackathon adding*/
