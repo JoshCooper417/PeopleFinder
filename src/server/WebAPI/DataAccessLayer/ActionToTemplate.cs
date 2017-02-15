@@ -9,17 +9,32 @@ namespace WebAPI.DataAccessLayer
     public class ActionToTemplate : ITemplate
     {
         // חייג אל
-        private static string[] noiseWordsLookup = new string[2] { "חייג", "אל"};
-
+        private static List<string> mailWordsLookup = new List<string>() {"mail", "שלח מייל", "שלח דואר"};
+        private static List<string> chatWordsLookup = new List<string>() {"chat", "שלח הודעה", "הודע" };
+        private static List<string> callWordsLookup = new List<string>() {"call", "התקשר", "חייג", "טלפן" };
+        private static List<string> toWordsLookup = new List<string>() { "אל", "ל" };
+        private static List<List<string>> actionWordsLookup = new List<List<string>>() { mailWordsLookup, chatWordsLookup, callWordsLookup };
+        
         private string lookupValue { get; set; }
+        private string lookupAction { get; set; }
 
         public DbRequest MakeDbRequest(string input, bool shouldShowAll)
         {
-            // input comes in as "חייג אל עומר"
-
-            foreach (string lookup in noiseWordsLookup)
+            string actionString;
+            foreach (List<string> currWords in actionWordsLookup )
             {
-                input = input.Replace(lookup, "");
+                for (int i = 1; (i < currWords.Count) && (string.IsNullOrWhiteSpace(lookupAction)); i++)
+                {
+                    for (int j = 0; (j < toWordsLookup.Count) && (string.IsNullOrWhiteSpace(lookupAction)); j++)
+                    {
+                        actionString = currWords[i] + " " + toWordsLookup[j];
+                        if (input.Contains(actionString))
+                        {
+                            lookupAction = currWords[0];
+                            input = input.Replace(actionString, "");
+                        }
+                    }
+                }
             }
             lookupValue = input;
             var dbRequest = new DbRequest(lookupValue, shouldShowAll);
@@ -28,7 +43,15 @@ namespace WebAPI.DataAccessLayer
 
         public Regex MatchingRegex()
         {
-            return new Regex(@"חייג אל .*");
+            string regex = @".+ (";
+            for (int i = 0; i < toWordsLookup.Count; i++)
+            {
+                regex += toWordsLookup[i];
+                if (i < toWordsLookup.Count - 1)
+                    regex += "|";
+            }
+            regex += @").+";
+            return new Regex(regex);
         }
 
         public object AddMetadata()
@@ -36,7 +59,7 @@ namespace WebAPI.DataAccessLayer
             return new
             {
                 query = lookupValue,
-                action = "send"
+                action = lookupAction
             };
         }
 
