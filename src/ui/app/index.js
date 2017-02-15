@@ -372,7 +372,9 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 	$scope.chats = [];
 	
 	$scope.isInBotMode = true;
-	$scope.chats.push(createChatObject('שלום, את מי מחפשים?', true));
+	$scope.chats.push(createChatObject('היי! כאן שוקי התוכי,  איך אוכל לעזור לכם? ', true));
+	$scope.chats.push(createChatObject('טיפ: נסו לבצע חיפושים בסגנון "מה מספרו האישי של ישראל ישראלי"  או "מתי שוקי התוכי נולד?"', true));
+	
 
 	$scope.submitChat = function() {
 		var chat = $scope.chat_input;
