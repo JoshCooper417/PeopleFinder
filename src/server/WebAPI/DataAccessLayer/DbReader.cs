@@ -60,6 +60,7 @@ namespace WebAPI.DataAccessLayer
                         person.Darga,
                         person.Sex,
                         person.Tags,
+                        person.EndOfService,
                         person.WhatIDo))
                     .ToList();
         }
@@ -69,6 +70,7 @@ namespace WebAPI.DataAccessLayer
     public class PersonFromDbWrapper
     {
         public string MisparIshi { get; set; }
+        
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string Mail { get; set; }
@@ -84,6 +86,7 @@ namespace WebAPI.DataAccessLayer
         public string Darga { get; set; }
         public string Sex { get; set; }
         public long Tags { get; set; }
+        public System.Nullable<System.DateTime> EndOfService { get; set; }
         public string WhatIDo { get; set; }
 
         public PersonFromDbWrapper(
@@ -103,6 +106,7 @@ namespace WebAPI.DataAccessLayer
             string Darga,
             string Sex,
             long Tags,
+            System.Nullable<System.DateTime> EndOfService,
             string WhatIDo)
         {
             this.MisparIshi = MisparIshi;
@@ -120,6 +124,7 @@ namespace WebAPI.DataAccessLayer
             this.BirthdayDisplayString = BirthdayDisplayString;
             this.Darga = Darga;
             this.Tags = Tags;
+            this.EndOfService = EndOfService;
             this.WhatIDo = WhatIDo;
         }
     }

@@ -11,6 +11,9 @@ namespace WebAPI.DataAccessLayer
         {
             return new List<ITemplate> {
                 new WhatIsTemplate(),
+                new WhereIsTemplate(),
+                new WhenTemplate(),
+                new TillWhenTemplate(),
                 new ActionToTemplate(),
                 new ParamsOnlyTemplate()
             };

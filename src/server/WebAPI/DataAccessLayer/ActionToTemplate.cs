@@ -9,6 +9,19 @@ namespace WebAPI.DataAccessLayer
     public class ActionToTemplate : ITemplate
     {
         // חייג אל
+        private static string[] noiseWordsLookup = new string[2] { "חייג", "אל"};
+
+        private string lookupField;
+
+        public string getLookupValue()
+        {
+            return lookupValue;
+        }
+
+        public string getLookupField()
+        {
+            return lookupField;
+        }
         private static List<string> mailWordsLookup = new List<string>() {"mail", "שלח מייל", "שלח דואר"};
         private static List<string> chatWordsLookup = new List<string>() {"chat", "שלח הודעה", "הודע" };
         private static List<string> callWordsLookup = new List<string>() {"call", "התקשר", "חייג", "טלפן" };
@@ -67,5 +80,6 @@ namespace WebAPI.DataAccessLayer
         {
             return personJsons;
         }
+
     }
 }

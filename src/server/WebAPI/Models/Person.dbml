@@ -28,6 +28,7 @@
       <Column Name="Fax" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="HomeTelephone" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="WhatIDo" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Member="EndOfService" Type="System.DateTime" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.TagPrimes" Member="TagPrimes">
