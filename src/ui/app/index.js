@@ -469,6 +469,18 @@ angular.module("phoneLocator").controller("menuPopupCtrl", function($scope) {
         });
      };
 	 
+	 $scope.doAction = function(actionName, actionTarget){
+		 switch(actionName){
+			 case "mail":
+				break;
+				
+			case "chat":
+				break;
+				
+			case "call":
+				break;
+		 }
+	 }
 	
 });
 /*hackathon adding*/
