@@ -11,7 +11,7 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
     var MINIMUM_QUERY_LENGTH = 3;
     window.phoneLocatorScope = $scope;
 
-    chrome.storage.sync.get(['pinnedPersons'], function(persons){ 
+    chrome.storage.sync.get(['pinnedPersons'], function(persons){
         if(persons['pinnedPersons'])
             window.phoneLocatorScope.peopleToEmail = persons['pinnedPersons'];
         else
@@ -124,8 +124,11 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
         }
         return true;
      }
-	
-	$scope.sendEmail = function(email) {
+
+     // If the user taps on an email address field, close the extension and redirect to an email URL.
+     $scope.sendEmail = function(email) {
+        logRequest(LOG_TYPES.MAIL);
+
         var emailUrl = 'mailto:' + email;
         chrome.tabs.create({ url: emailUrl, active: false }, function (tab) {
             setTimeout(function() {

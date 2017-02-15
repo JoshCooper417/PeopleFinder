@@ -1,0 +1,226 @@
+[1mdiff --git a/src/dbfiller/PeopleDbFiller/Program.cs b/src/dbfiller/PeopleDbFiller/Program.cs[m
+[1mindex d1e5b47..de93e68 100644[m
+[1m--- a/src/dbfiller/PeopleDbFiller/Program.cs[m
+[1m+++ b/src/dbfiller/PeopleDbFiller/Program.cs[m
+[36m@@ -86,7 +86,6 @@[m [mnamespace PeopleDbFiller[m
+                     });[m
+                 });[m
+             });[m
+[31m-            while (true) { }[m
+         }[m
+     }[m
+     class DebugWriter : System.IO.TextWriter[m
+[1mdiff --git a/src/dbfiller/PeopleDbFiller/bin/Debug/PeopleDbFiller.exe b/src/dbfiller/PeopleDbFiller/bin/Debug/PeopleDbFiller.exe[m
+[1mindex ca1c171..4fd2c6c 100644[m
+Binary files a/src/dbfiller/PeopleDbFiller/bin/Debug/PeopleDbFiller.exe and b/src/dbfiller/PeopleDbFiller/bin/Debug/PeopleDbFiller.exe differ
+[1mdiff --git a/src/dbfiller/PeopleDbFiller/bin/Debug/PeopleDbFiller.pdb b/src/dbfiller/PeopleDbFiller/bin/Debug/PeopleDbFiller.pdb[m
+[1mindex 8f78aef..de1b41b 100644[m
+Binary files a/src/dbfiller/PeopleDbFiller/bin/Debug/PeopleDbFiller.pdb and b/src/dbfiller/PeopleDbFiller/bin/Debug/PeopleDbFiller.pdb differ
+[1mdiff --git a/src/dbfiller/PeopleDbFiller/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache b/src/dbfiller/PeopleDbFiller/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache[m
+[1mindex e397d05..5ed7c68 100644[m
+Binary files a/src/dbfiller/PeopleDbFiller/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache and b/src/dbfiller/PeopleDbFiller/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache differ
+[1mdiff --git a/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.csproj.FileListAbsolute.txt b/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.csproj.FileListAbsolute.txt[m
+[1mindex 67da82d..658f3ee 100644[m
+[1m--- a/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.csproj.FileListAbsolute.txt[m
+[1m+++ b/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.csproj.FileListAbsolute.txt[m
+[36m@@ -10,3 +10,9 @@[m [mC:\Users\huser\Desktop\JoshCode\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Deb[m
+ C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.exe[m
+ C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.pdb[m
+ C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Debug\PeopleDbFiller.csprojResolveAssemblyReference.cache[m
+[32m+[m[32mD:\project\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.exe.config[m
+[32m+[m[32mD:\project\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Debug\PeopleDbFiller.exe[m
+[32m+[m[32mD:\project\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Debug\PeopleDbFiller.pdb[m
+[32m+[m[32mD:\project\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.exe[m
+[32m+[m[32mD:\project\PeopleFinder\src\dbfiller\PeopleDbFiller\bin\Debug\PeopleDbFiller.pdb[m
+[32m+[m[32mD:\project\PeopleFinder\src\dbfiller\PeopleDbFiller\obj\Debug\PeopleDbFiller.csprojResolveAssemblyReference.cache[m
+[1mdiff --git a/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.exe b/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.exe[m
+[1mindex ca1c171..4fd2c6c 100644[m
+Binary files a/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.exe and b/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.exe differ
+[1mdiff --git a/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.pdb b/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.pdb[m
+[1mindex 8f78aef..de1b41b 100644[m
+Binary files a/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.pdb and b/src/dbfiller/PeopleDbFiller/obj/Debug/PeopleDbFiller.pdb differ
+[1mdiff --git a/src/server/.vs/WebAPI/v14/.suo b/src/server/.vs/WebAPI/v14/.suo[m
+[1mindex 1653330..b23db88 100644[m
+Binary files a/src/server/.vs/WebAPI/v14/.suo and b/src/server/.vs/WebAPI/v14/.suo differ
+[1mdiff --git a/src/server/.vs/config/applicationhost.config b/src/server/.vs/config/applicationhost.config[m
+[1mindex 732863b..6219e29 100644[m
+[1m--- a/src/server/.vs/config/applicationhost.config[m
+[1m+++ b/src/server/.vs/config/applicationhost.config[m
+[36m@@ -162,7 +162,7 @@[m
+             </site>[m
+             <site name="WebAPI" id="2">[m
+                 <application path="/" applicationPool="Clr4IntegratedAppPool">[m
+[31m-                    <virtualDirectory path="/" physicalPath="C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\server\WebAPI" />[m
+[32m+[m[32m                    <virtualDirectory path="/" physicalPath="D:\project\PeopleFinder\src\server\WebAPI" />[m
+                 </application>[m
+                 <bindings>[m
+                     <binding protocol="http" bindingInformation="*:34781:localhost" />[m
+[1mdiff --git a/src/server/WebAPI/bin/WebAPI.dll b/src/server/WebAPI/bin/WebAPI.dll[m
+[1mindex 89e225c..7b830a4 100644[m
+Binary files a/src/server/WebAPI/bin/WebAPI.dll and b/src/server/WebAPI/bin/WebAPI.dll differ
+[1mdiff --git a/src/server/WebAPI/bin/WebAPI.pdb b/src/server/WebAPI/bin/WebAPI.pdb[m
+[1mindex e75766a..8d467ae 100644[m
+Binary files a/src/server/WebAPI/bin/WebAPI.pdb and b/src/server/WebAPI/bin/WebAPI.pdb differ
+[1mdiff --git a/src/server/WebAPI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache b/src/server/WebAPI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache[m
+[1mindex a76dacb..9d21220 100644[m
+Binary files a/src/server/WebAPI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache and b/src/server/WebAPI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache differ
+[1mdiff --git a/src/server/WebAPI/obj/Debug/WebAPI.csproj.FileListAbsolute.txt b/src/server/WebAPI/obj/Debug/WebAPI.csproj.FileListAbsolute.txt[m
+[1mindex fc4c9b6..0fcdaf7 100644[m
+[1m--- a/src/server/WebAPI/obj/Debug/WebAPI.csproj.FileListAbsolute.txt[m
+[1m+++ b/src/server/WebAPI/obj/Debug/WebAPI.csproj.FileListAbsolute.txt[m
+[36m@@ -128,3 +128,36 @@[m [mC:\Users\huser\Desktop\JoshCode\PeopleFinder\src\server\WebAPI\bin\System.Web.We[m
+ C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\server\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache[m
+ C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\server\WebAPI\obj\Debug\WebAPI.dll[m
+ C:\Users\huser\Desktop\JoshCode\PeopleFinder\src\server\WebAPI\obj\Debug\WebAPI.pdb[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\WebAPI.dll.config[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\WebAPI.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\WebAPI.pdb[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\Antlr3.Runtime.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\EntityFramework.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\Microsoft.Web.Infrastructure.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\Newtonsoft.Json.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Net.Http.Formatting.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Helpers.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Http.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Http.WebHost.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Mvc.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Optimization.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Providers.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Razor.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.WebPages.Deployment.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.WebPages.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.WebPages.Razor.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\WebGrease.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\EntityFramework.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\Newtonsoft.Json.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Net.Http.Formatting.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Helpers.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Http.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Http.WebHost.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Mvc.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.Razor.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.WebPages.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.WebPages.Deployment.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\bin\System.Web.WebPages.Razor.xml[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\obj\Debug\WebAPI.dll[m
+[32m+[m[32mD:\project\PeopleFinder\src\server\WebAPI\obj\Debug\WebAPI.pdb[m
+[1mdiff --git a/src/server/WebAPI/obj/Debug/WebAPI.csprojResolveAssemblyReference.cache b/src/server/WebAPI/obj/Debug/WebAPI.csprojResolveAssemblyReference.cache[m
+[1mindex df6745b..68a484b 100644[m
+Binary files a/src/server/WebAPI/obj/Debug/WebAPI.csprojResolveAssemblyReference.cache and b/src/server/WebAPI/obj/Debug/WebAPI.csprojResolveAssemblyReference.cache differ
+[1mdiff --git a/src/server/WebAPI/obj/Debug/WebAPI.dll b/src/server/WebAPI/obj/Debug/WebAPI.dll[m
+[1mindex 89e225c..7b830a4 100644[m
+Binary files a/src/server/WebAPI/obj/Debug/WebAPI.dll and b/src/server/WebAPI/obj/Debug/WebAPI.dll differ
+[1mdiff --git a/src/server/WebAPI/obj/Debug/WebAPI.pdb b/src/server/WebAPI/obj/Debug/WebAPI.pdb[m
+[1mindex e75766a..8d467ae 100644[m
+Binary files a/src/server/WebAPI/obj/Debug/WebAPI.pdb and b/src/server/WebAPI/obj/Debug/WebAPI.pdb differ
+[1mdiff --git a/src/ui/app/index.js b/src/ui/app/index.js[m
+[1mindex 1641235..08cf424 100644[m
+[1m--- a/src/ui/app/index.js[m
+[1m+++ b/src/ui/app/index.js[m
+[36m@@ -11,7 +11,7 @@[m [mangular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe[m
+     var MINIMUM_QUERY_LENGTH = 3;[m
+     window.phoneLocatorScope = $scope;[m
+ [m
+[31m-    chrome.storage.sync.get(['pinnedPersons'], function(persons){ [m
+[32m+[m[32m    chrome.storage.sync.get(['pinnedPersons'], function(persons){[m
+         if(persons['pinnedPersons'])[m
+             window.phoneLocatorScope.peopleToEmail = persons['pinnedPersons'];[m
+         else[m
+[36m@@ -19,7 +19,7 @@[m [mangular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe[m
+     });[m
+ [m
+     $scope.peopleToEmail = [];[m
+[31m-    [m
+[32m+[m
+     $scope.AppStates = {[m
+         DEFAULT: 0,[m
+         SHOW_PEOPLE: 1,[m
+[36m@@ -73,7 +73,7 @@[m [mangular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe[m
+         if (opt_forceNewRequest) {[m
+             logRequest(LOG_TYPES.SEE_ALL_PRESSED);[m
+         }[m
+[31m-        [m
+[32m+[m
+         // We also cancel the previous timeout every time we make a query as an added safety[m
+         // mechanism (e.g., if the user presses enter to send a request).[m
+         clearSendQueryTimeout();[m
+[36m@@ -121,10 +121,10 @@[m [mangular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe[m
+                 return false;[m
+             }[m
+         }[m
+[31m-        return true;        [m
+[32m+[m[32m        return true;[m
+      }[m
+ [m
+[31m-     [m
+[32m+[m
+      // If the user taps on an email address field, close the extension and redirect to an email URL.[m
+      $scope.sendEmail = function(email) {[m
+         logRequest(LOG_TYPES.MAIL);[m
+[36m@@ -373,4 +373,4 @@[m [mvar PROBLEMATIC_CHARACTERS = ['.', '+', ':', '%'];[m
+ [m
+ var SESSION_ID = Date.now() + Math.random();[m
+ [m
+[31m-var MAX_NUMBER_OF_EMAILS_IN_URL = 100;[m
+\ No newline at end of file[m
+[32m+[m[32mvar MAX_NUMBER_OF_EMAILS_IN_URL = 100;[m
+[1mdiff --git a/src/ui/popup.html b/src/ui/popup.html[m
+[1mindex 7e1cb73..837d12b 100644[m
+[1m--- a/src/ui/popup.html[m
+[1m+++ b/src/ui/popup.html[m
+[36m@@ -66,9 +66,9 @@[m
+ 			  	  <span ng-switch-when="0">לא נמצאו רישומים לשאילתה</span>[m
+ 			  	  <span ng-switch-when="1">תוצאה אחת עבור </span>[m
+ 			  	  <span ng-switch-default>[m
+[31m-			  	  	{{people.length}} תוצאות [m
+[32m+[m			[41m  [m	[41m  [m	[32m{{people.length}} תוצאות[m
+ 			  	  	<span ng-if="metadata.shouldShowSeeMore">הראשונות </span>[m
+[31m-			  	  	עבור [m
+[32m+[m			[41m  [m	[41m  [m	[32mעבור[m
+ 		  	  	  </span>[m
+ 			  "<b>{{metadata.query}}</b>"[m
+ 			  </span>[m
+[36m@@ -89,15 +89,15 @@[m
+ 		  			</div>[m
+ 	        		<div ng-flex="{'25':person.showMore,'10':!person.showMore}">[m
+ 				  		<div class="thumbnail-wrapper" ng-click="onMorePressed(person);">[m
+[31m-				            <img ng-if="person.bottom_row.length && person.showMore"[m
+[32m+[m				[32m            <img ng-if="person.bottom_row.length && !person.showMore"[m
+ 				            	class="more-less"[m
+ 				            	src="/plus.png"[m
+ 				            	title="הרחב">[m
+[31m-				            <img ng-if="person.bottom_row.length && !person.showMore"[m
+[32m+[m				[32m            <img ng-if="person.bottom_row.length && person.showMore"[m
+ 				            	class="more-less"[m
+ 				            	src="/minus.png"[m
+ 				            	title="צמצם">[m
+[31m-				  			[m
+[32m+[m
+ 				  			<!--TODO(Ed): Add back big-thumbnail -->[m
+ 				  			<img ng-if="person.picture" class="thumbnail"[m
+ 			  					ng-src="data:image/png;base64,{{person.picture}}">[m
+[36m@@ -134,14 +134,14 @@[m
+ 					  				 <div ng-if="person.what_i_do || canEditWhatDoIDo(person)">[m
+ 					  				 	<div class="bottom-row-field what-i-do">[m
+ 						                	<div class="bottom-row-field-name">מה אני עושה בכמה מילים</div>[m
+[31m-						                	[m
+[32m+[m
+ 						                	<div ng-if="!person.editing_what_i_do" >{{person.what_i_do}}</div>[m
+ 						                	<form  ng-submit="setWhatIDoMessage(person)">[m
+ 						                		<input ng-if="person.editing_what_i_do"[m
+ 						                		    type="text"[m
+ 						                			ng-model="person.whatIDoToAdd">[m
+ 						                	</form>[m
+[31m-						                	[m
+[32m+[m
+ 						                	<div ng-if="canEditWhatDoIDo(person) && !person.editing_what_i_do"[m
+ 						                		 class="change-what-i-do"[m
+ 						                		 ng-click="person.editing_what_i_do = true;[m
+[36m@@ -228,4 +228,4 @@[m
+ 	</div>[m
+ </div>[m
+ </body>[m
+[31m-</html>[m
+\ No newline at end of file[m
+[32m+[m[32m</html>[m
