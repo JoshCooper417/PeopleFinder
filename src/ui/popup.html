@@ -77,8 +77,8 @@
 											  <tr style="height: 60px;">
 												 <td ng-repeat="field in person.top_row" class="top-row">
 													<md-input-container style="padding-bottom: 0;">
-													   <label>{{field.name}}</label>
-													   <input title="{{field.value}}"ng-model="field.value" readonly />
+													   <label >{{field.name}}</label>
+													   <input ng-style="field.name === 'מייל'  && {'direction':'ltr'}" title="{{field.value}}"ng-model="field.value" readonly />
 													</md-input-container>
 												 </td>
 											  </tr>
@@ -106,7 +106,7 @@
 												 <ul class="bottom-row-list">
 													<li ng-repeat="field in person.bottom_row" ng-if="field.value" class="bottom-row-field">
 													   <div class="bottom-row-field-name">{{field.name}}</div>
-													   <div>{{field.value}}</div>
+													   <div ng-style="field.name === 'מייל'  && {'direction':'ltr'}">{{field.value}}</div>
 													</li>
 												 </ul>
 												 <div ng-if="person.what_i_do || canEditWhatDoIDo(person)">
