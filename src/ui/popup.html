@@ -27,166 +27,168 @@
       </div>
       <div class="everything-wrapper" ng-hide="!isInBotMode">
          <div class="chat-window-wrapper">
-		 <table style="width: 100%;table-layout: fixed; border-spacing: 0;">
-            <tr ng-repeat="chat in chats" class="chat-wrapper">
-			   <td style="width: 50px; vertical-align: top;"><img src="bot.png" ng-if="chat.is_bot"></td>
-			   <td class="triangle-wrapper"><div ng-hide="!chat.is_bot" class="triangle-bot"></td>
-				<td>
-			   <div ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot, 'action-chat': chat.action}">
-				   <div ng-if="chat.didYouMeanTranslated">
-				      אני מניח שהתכוונת ל<b>{{chat.didYouMeanTranslated}}</b> 😉
-				   </div>
-				   <div class="actual-message" ng-if="chat.message">{{chat.message}}</div>
-				   <div class="persons-wrapper">
-					  <md-list ng-repeat="person in chat.persons" style="padding: 6px 0">
-						 <!-- TODO(JOSH): Maybe add this back or something.
-							<div class="pin-wrapper remove-outline"
-								  title="הוסף לתפוצה"
-								  ng-click="togglePinPerson(person)"
-								  ng-if="person.mail">
-								<img src="/mailing_list.png" class="pin">
-							</div>-->
-						 <md-list-item class="list-wrapper">
-							<div layout="column" style="width:100%">
-							   <div flex>
-								  <table style="width: 100%;">
-									 <tr>
-										<td>
-										   <div class="birthday" ng-if="person.is_birthday_today">
-											  יום הולדת שמח!
-										   </div>
-										   <div ng-flex="{'25':person.showMore,'10':!person.showMore}">
-											  <div class="thumbnail-wrapper" ng-click="onMorePressed(person);">
-												 <img ng-if="person.bottom_row.length && !person.showMore"
-													class="more-less"
-													src="/plus.png"
-													title="הרחב">
-												 <img ng-if="person.bottom_row.length && person.showMore"
-													class="more-less"
-													src="/minus.png"
-													title="צמצם">
-												 <!--TODO(Ed): Add back big-thumbnail -->
-												 <img ng-if="person.picture" class="thumbnail"
-													ng-src="data:image/png;base64,{{person.picture}}">
-												 <img ng-if="!person.picture" class="thumbnail" src="/person.png">
-											  </div>
-										   </div>
-										</td>
-										<td>
-										   <table style="width: 100%; table-layout: fixed;">
-											  <tr style="height: 60px;">
-												 <td ng-repeat="field in person.top_row" class="top-row">
-													<md-input-container style="padding-bottom: 0;">
-													   <label >{{field.name}}</label>
-													   <input ng-style="field.name === 'מייל'  && {'direction':'ltr'}" title="{{field.value}}"ng-model="field.value" readonly />
-													</md-input-container>
-												 </td>
-											  </tr>
-										   </table>
-										</td>
-									 <td style="text-align: left; white-space: nowrap;">
-									 <md-button style="margin:2px" ng-hide="chat.action && chat.action != 'mail'"
-														aria-label="Mail" class="md-fab md-raised md-mini" ng-click="sendEmail(person.mail)">
-													   <md-icon md-svg-src="/lib/envelope.svg" title="שלח מייל"></md-icon>
-													</md-button>
-													<md-button style="margin:2px" ng-hide="chat.action && chat.action != 'chat'"
-														aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeChat(person.mispar_ishi)">
-													   <md-icon md-svg-src="/lib/skype.svg" title="התחל צ'אט בסקייפ"></md-icon>
-													</md-button>
-													<md-button style="margin:2px"  ng-hide="chat.action && chat.action != 'call'"
-														aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeCall(person.mispar_ishi)">
-													   <md-icon md-svg-src="/lib/phone-receiver.svg" title="התחל שיחה בסקייפ"></md-icon>
-													</md-button>
-									 </td>
-									 </tr>
-									 <tr>
-										<td colspan="999" style="text-align: center">
-										   <div flex ng-hide="!person.showMore" class="slideDown">
-											  <div ng-class="expand-collapse-content" class="extra-list-wrapper">
-												 <ul class="bottom-row-list">
-													<li ng-repeat="field in person.bottom_row" ng-if="field.value" class="bottom-row-field">
-													   <div class="bottom-row-field-name">{{field.name}}</div>
-													   <div ng-style="field.name === 'מייל'  && {'direction':'ltr'}">{{field.value}}</div>
-													</li>
-												 </ul>
-												 <div ng-if="person.what_i_do || canEditWhatDoIDo(person)">
-													<div class="bottom-row-field what-i-do">
-													   <div class="bottom-row-field-name">מה אני עושה בכמה מילים</div>
-													   <div ng-if="!person.editing_what_i_do" >{{person.what_i_do}}</div>
-													   <form  ng-submit="setWhatIDoMessage(person)">
-														  <input ng-if="person.editing_what_i_do"
-															 type="text"
-															 ng-model="person.whatIDoToAdd">
-													   </form>
-													   <div ng-if="canEditWhatDoIDo(person) && !person.editing_what_i_do"
-														  class="change-what-i-do"
-														  ng-click="person.editing_what_i_do = true;
-														  person.whatIDoToAdd = person.what_i_do">
-														  {{person.what_i_do ? 'ערוך' : 'הוסף'}}
-													   </div>
-													   <div ng-if="person.editing_what_i_do">
-														  <div class="change-what-i-do"
-															 style="float: right"
-															 ng-click="setWhatIDoMessage(person)">
-															 שלח
-														  </div>
-														  <div class="change-what-i-do"
-															 style="float: left"
-															 ng-click="person.editing_what_i_do = false;">
-															 בטל
-														  </div>
-													   </div>
-													</div>
-												 </div>
-												 <div ng-if="person.tags">
-													<div class="tag-wrapper"
-													   ng-repeat="tag in person.tags"
-													   ng-if="tag.tag">
-													   <div class="tag-name"
-														  ng-attr-title="{{'חפש #' + tag.tag}}"
-														  ng-click="searchForTag(tag.tag)">
-														  <span>{{tag.tag}}</span>
-													   </div>
-													   <div ng-hide="!canDeleteTag(person, tag)"
-														  class="exit-tag"
-														  ng-click="deleteTagForPerson(person, tag)">x</div>
-													</div>
-												 </div>
-												 <div class="tag-adder"
-													ng-if="canAddTags(person) && !person.hide_show_more_tags"
-													title="הסף תג על עצמך"
-													ng-click="getTagsForPerson(person)">+</div>
-												 <select ng-if="person.tagOptions && person.tagOptions.length"
-													ng-model="person.newSelectedTag"
-													ng-change="tagDropdownSelected(person)">
-													<option selected value="">בחר תג...</option>
-													<option ng-repeat="tagOption in person.tagOptions"
-													   value="{{tagOption}}">{{tagOption}}</option>
-												 </select>
-											  </div>
-										   </div>
-										</td>
-									 </tr>
-								  </table>
-							   </div>
-							</div>
-						 </md-list-item>
-					  </md-list>
-				   </div>
-			   </div>
-			   </td>
-			   <td class="triangle-wrapper"></td>
-			   <td class="time" style="width: 50px; vertical-align: top; padding-top: 4px;">{{chat.time}}</td>
-            </tr>
-			</table>
+            <table style="width: 100%;table-layout: fixed; border-spacing: 0;">
+               <tr ng-repeat="chat in chats" class="chat-wrapper">
+                  <td style="width: 50px; vertical-align: top;"><img src="bot.png" ng-if="chat.is_bot"></td>
+                  <td class="triangle-wrapper">
+                     <div ng-hide="!chat.is_bot" class="triangle-bot"></div>
+                  </td>
+                  <td>
+                     <div ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot, 'action-chat': chat.action}">
+                        <div ng-if="chat.didYouMeanTranslated">
+                           אני מניח שהתכוונת ל<b>{{chat.didYouMeanTranslated}}</b> 😉
+                        </div>
+                        <div class="actual-message" ng-if="chat.message">{{chat.message}}</div>
+                        <div class="persons-wrapper">
+                           <md-list ng-repeat="person in chat.persons" style="padding: 6px 0">
+                              <!-- TODO(JOSH): Maybe add this back or something.
+                                 <div class="pin-wrapper remove-outline"
+                                 	  title="הוסף לתפוצה"
+                                 	  ng-click="togglePinPerson(person)"
+                                 	  ng-if="person.mail">
+                                 	<img src="/mailing_list.png" class="pin">
+                                 </div>-->
+                              <md-list-item class="list-wrapper">
+                                 <div layout="column" style="width:100%">
+                                    <div flex>
+                                       <table style="width: 100%;">
+                                          <tr>
+                                             <td>
+                                                <div class="birthday" ng-if="person.is_birthday_today">
+                                                   יום הולדת שמח!
+                                                </div>
+                                                <div ng-flex="{'25':person.showMore,'10':!person.showMore}">
+                                                   <div class="thumbnail-wrapper" ng-click="onMorePressed(person);">
+                                                      <img ng-if="person.bottom_row.length && !person.showMore"
+                                                         class="more-less"
+                                                         src="/plus.png"
+                                                         title="הרחב">
+                                                      <img ng-if="person.bottom_row.length && person.showMore"
+                                                         class="more-less"
+                                                         src="/minus.png"
+                                                         title="צמצם">
+                                                      <!--TODO(Ed): Add back big-thumbnail -->
+                                                      <img ng-if="person.picture" class="thumbnail"
+                                                         ng-src="data:image/png;base64,{{person.picture}}">
+                                                      <img ng-if="!person.picture" class="thumbnail" src="/person.png">
+                                                   </div>
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <table style="width: 100%; table-layout: fixed;">
+                                                   <tr style="height: 60px;">
+                                                      <td ng-repeat="field in person.top_row" class="top-row">
+                                                         <md-input-container style="padding-bottom: 0;">
+                                                            <label>{{field.name}}</label>
+                                                            <input ng-style="field.name === 'מייל'  && {'direction':'ltr'}" ng-model="field.value" readonly />
+                                                         </md-input-container>
+                                                      </td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                             <td style="text-align: left; white-space: nowrap;">
+                                                <md-button style="margin:2px" ng-hide="chat.action && chat.action != 'mail'"
+                                                   aria-label="Mail" class="md-fab md-raised md-mini" ng-click="sendEmail(person.mail)">
+                                                   <md-icon md-svg-src="/lib/envelope.svg" title="שלח מייל"></md-icon>
+                                                </md-button>
+                                                <md-button style="margin:2px" ng-hide="chat.action && chat.action != 'chat'"
+                                                   aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeChat(person.mispar_ishi)">
+                                                   <md-icon md-svg-src="/lib/chat.svg" title="התחל צ'אט בסקייפ"></md-icon>
+                                                </md-button>
+                                                <md-button style="margin:2px"  ng-hide="chat.action && chat.action != 'call'"
+                                                   aria-label="Skype" class="md-fab md-raised md-mini" ng-click="skypeCall(person.mispar_ishi)">
+                                                   <md-icon md-svg-src="/lib/phone-receiver.svg" title="התחל שיחה בסקייפ"></md-icon>
+                                                </md-button>
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td colspan="999" style="text-align: center">
+                                                <div flex ng-hide="!person.showMore" class="slideDown">
+                                                   <div ng-class="expand-collapse-content" class="extra-list-wrapper">
+                                                      <ul class="bottom-row-list">
+                                                         <li ng-repeat="field in person.bottom_row" ng-if="field.value" class="bottom-row-field">
+                                                            <div class="bottom-row-field-name">{{field.name}}</div>
+                                                            <div ng-style="field.name === 'מייל'  && {'direction':'ltr'}">{{field.value}}</div>
+                                                         </li>
+                                                      </ul>
+                                                      <div ng-if="person.what_i_do || canEditWhatDoIDo(person)">
+                                                         <div class="bottom-row-field what-i-do">
+                                                            <div class="bottom-row-field-name">מה אני עושה בכמה מילים</div>
+                                                            <div ng-if="!person.editing_what_i_do" >{{person.what_i_do}}</div>
+                                                            <form  ng-submit="setWhatIDoMessage(person)">
+                                                               <input ng-if="person.editing_what_i_do"
+                                                                  type="text"
+                                                                  ng-model="person.whatIDoToAdd">
+                                                            </form>
+                                                            <div ng-if="canEditWhatDoIDo(person) && !person.editing_what_i_do"
+                                                               class="change-what-i-do"
+                                                               ng-click="person.editing_what_i_do = true;
+                                                               person.whatIDoToAdd = person.what_i_do">
+                                                               {{person.what_i_do ? 'ערוך' : 'הוסף'}}
+                                                            </div>
+                                                            <div ng-if="person.editing_what_i_do">
+                                                               <div class="change-what-i-do"
+                                                                  style="float: right"
+                                                                  ng-click="setWhatIDoMessage(person)">
+                                                                  שלח
+                                                               </div>
+                                                               <div class="change-what-i-do"
+                                                                  style="float: left"
+                                                                  ng-click="person.editing_what_i_do = false;">
+                                                                  בטל
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                      <div ng-if="person.tags">
+                                                         <div class="tag-wrapper"
+                                                            ng-repeat="tag in person.tags"
+                                                            ng-if="tag.tag">
+                                                            <div class="tag-name"
+                                                               ng-attr-title="{{'חפש #' + tag.tag}}"
+                                                               ng-click="searchForTag(tag.tag)">
+                                                               <span>{{tag.tag}}</span>
+                                                            </div>
+                                                            <div ng-hide="!canDeleteTag(person, tag)"
+                                                               class="exit-tag"
+                                                               ng-click="deleteTagForPerson(person, tag)">x</div>
+                                                         </div>
+                                                      </div>
+                                                      <div class="tag-adder"
+                                                         ng-if="canAddTags(person) && !person.hide_show_more_tags"
+                                                         title="הסף תג על עצמך"
+                                                         ng-click="getTagsForPerson(person)">+</div>
+                                                      <select ng-if="person.tagOptions && person.tagOptions.length"
+                                                         ng-model="person.newSelectedTag"
+                                                         ng-change="tagDropdownSelected(person)">
+                                                         <option selected value="">בחר תג...</option>
+                                                         <option ng-repeat="tagOption in person.tagOptions"
+                                                            value="{{tagOption}}">{{tagOption}}</option>
+                                                      </select>
+                                                   </div>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </md-list-item>
+                           </md-list>
+                        </div>
+                     </div>
+                  </td>
+                  <td class="triangle-wrapper"></td>
+                  <td class="time" style="width: 50px; vertical-align: top; padding-top: 4px;">{{chat.time}}</td>
+               </tr>
+            </table>
             <div ng-if="bot_is_typing" class="chat-wrapper chat-from-bot">
                <div class="actual-message">מחפש...</div>
             </div>
          </div>
          <form ng-submit="submitChat()" style="padding:0 110px">
             <input type="text"
-			    class="bot-input"
-			   style="width:100%; padding: 8px;"
+               class="bot-input"
+               style="width:100%; padding: 8px;"
                autofocus
                ng-trim="false"
                ng-model="chat_input"
