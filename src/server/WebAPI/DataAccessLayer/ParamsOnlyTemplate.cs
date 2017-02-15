@@ -47,7 +47,7 @@ namespace WebAPI.DataAccessLayer
         {
             return new
             {
-                query = input
+                query = "אלו התוצאות שמצאתי עבור " + input + ":"
             };
         }
     }

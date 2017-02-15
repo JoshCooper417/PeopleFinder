@@ -485,5 +485,6 @@ angular.module("phoneLocator").controller("menuPopupCtrl", function($scope) {
 	this.isOpen = false;
 	this.mode = 'md-fling';
 	this.direction = 'left';
+
 });
 /*hackathon adding*/
