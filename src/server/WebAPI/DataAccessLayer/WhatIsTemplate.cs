@@ -31,6 +31,7 @@ namespace WebAPI.DataAccessLayer
 
         public DbRequest MakeDbRequest(string input, bool shouldShowAll)
         {
+            input = input.TrimEnd('?');
             // input comes in as "מה המספר של עומר"
 
             input = input.Replace(key1Lookup, "");
@@ -45,7 +46,7 @@ namespace WebAPI.DataAccessLayer
 
             lookupField= inputSplitOnKey2[0];
 
-            lookupValue = inputSplitOnKey2[1].TrimEnd('?');
+            
             lookupValue = inputSplitOnKey2[1].TrimEnd(' ');
             lookupValue = inputSplitOnKey2[1].TrimStart(' ');
             var dbRequest = new DbRequest(lookupValue, shouldShowAll);

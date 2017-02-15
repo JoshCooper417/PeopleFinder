@@ -30,6 +30,7 @@ namespace WebAPI.DataAccessLayer
 
         public DbRequest MakeDbRequest(string input, bool shouldShowAll)
         {
+            input = input.TrimEnd('?');
             // input comes in as "איפה עומר משרת"
             // Now input is "עומר משרת"
             input = input.Replace(key1Lookup, "");

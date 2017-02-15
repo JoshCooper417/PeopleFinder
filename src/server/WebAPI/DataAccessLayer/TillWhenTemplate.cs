@@ -30,6 +30,9 @@ namespace WebAPI.DataAccessLayer
 
         public DbRequest MakeDbRequest(string input, bool shouldShowAll)
         {
+            input = input.TrimEnd('!');
+            input = input.TrimEnd('?');
+            
             // input comes in as "עד מתי שמעון"
             // Now input is "שמעון"
             input = input.Replace(key1Lookup, "");
@@ -62,7 +65,7 @@ namespace WebAPI.DataAccessLayer
         {
             return new
             {
-                query = "יש צחוקים ויש חלאס"
+                query = "יש צחוקים ויש חלאס..."
             };
         }
     }

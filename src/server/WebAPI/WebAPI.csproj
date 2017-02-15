@@ -136,10 +136,7 @@
     <Compile Include="DataAccessLayer\DbRequest.cs" />
     <Compile Include="DataAccessLayer\DebugWriter.cs" />
     <Compile Include="DataAccessLayer\ITemplate.cs" />
-<<<<<<< HEAD
     <Compile Include="DataAccessLayer\FieldsAliases.cs" />
-=======
->>>>>>> origin/master
     <Compile Include="DataAccessLayer\ParamsOnlyTemplate.cs" />
     <Compile Include="DataAccessLayer\TagAdder.cs" />
     <Compile Include="DataAccessLayer\TagGetter.cs" />
@@ -148,16 +145,11 @@
     <Compile Include="DataAccessLayer\TermExtractions.cs" />
     <Compile Include="DataAccessLayer\InputCleaner.cs" />
     <Compile Include="DataAccessLayer\PersonJsonWrapper.cs" />
-<<<<<<< HEAD
     <Compile Include="DataAccessLayer\TillWhenTemplate.cs" />
-    <Compile Include="DataAccessLayer\WhatIDoAdder.cs" />
     <Compile Include="DataAccessLayer\WhatIsTemplate.cs" />
     <Compile Include="DataAccessLayer\WhenTemplate.cs" />
     <Compile Include="DataAccessLayer\WhereIsTemplate.cs" />
-=======
     <Compile Include="DataAccessLayer\WhatIDoAdder.cs" />
-    <Compile Include="DataAccessLayer\WhatIsTemplate.cs" />
->>>>>>> origin/master
     <Compile Include="DataAccessLayer\WhereMatchesQuery.cs" />
     <Compile Include="DataAccessLayer\EnglishToHebrew.cs" />
     <Compile Include="DataAccessLayer\InputHandler.cs" />
