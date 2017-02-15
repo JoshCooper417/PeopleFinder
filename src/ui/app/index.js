@@ -373,11 +373,17 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 			$scope.bot_is_typing = false;
 
 
-			var queryMessage = '';
 			var metadata = data.splice(0,1)[0];
-			var query = (metadata && metadata.templateData && metadata.templateData.query) || '';
+			var queryMessage = '';
+			if(data.length == 0){
+				queryMessage = "מצטער, לא נמצאו תוצאות...";
+			}
+			else{
+				queryMessage = (metadata && metadata.templateData && metadata.templateData.query) || '';
+			}
+			
 	
-			var responseChat = createChatObject(query, true);
+			var responseChat = createChatObject(queryMessage, true);
 			responseChat.persons = data;
 			
 			$scope.chats.push(responseChat);
