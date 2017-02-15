@@ -117,7 +117,13 @@ namespace WebAPI.DataAccessLayer
                             };
                         case FieldsAliases.END_OF_SERVICE:
                             {
-                                objects.maybeAddDisplayFieldObject(field, person.EndOfService.ToString());
+                                var endOfServiceDisplayString = "";
+                                if (person.EndOfService.HasValue)
+                                {
+                                    var endOfService = person.EndOfService.Value;
+                                    endOfServiceDisplayString = endOfService.ToString("dd/MM/yyyy");
+                                }
+                                objects.maybeAddDisplayFieldObject(FieldsAliases.END_OF_SERVICE, endOfServiceDisplayString);
                                 break;
                             };
                         case FieldsAliases.SEX:
@@ -200,7 +206,13 @@ namespace WebAPI.DataAccessLayer
 
                 if (!fields.Contains(FieldsAliases.END_OF_SERVICE))
                 {
-                    objects.maybeAddDisplayFieldObject(FieldsAliases.END_OF_SERVICE, person.EndOfService.ToString());
+                    var endOfServiceDisplayString = "";
+                    if (person.EndOfService.HasValue)
+                    {
+                        var endOfService = person.EndOfService.Value;
+                        endOfServiceDisplayString = endOfService.ToString("dd/MM/yyyy");
+                    }
+                    objects.maybeAddDisplayFieldObject(FieldsAliases.END_OF_SERVICE, endOfServiceDisplayString);
                 }
 
                 if (!fields.Contains(FieldsAliases.SEX))

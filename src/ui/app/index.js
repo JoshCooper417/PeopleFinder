@@ -388,7 +388,7 @@ angular.module('phoneLocator').controller('FinderCtrl', function($scope, phoneSe
 			responseChat.action = metadata.templateData.action;
 			
 			if (metadata.originalInput != metadata.translatedInput) {
-				response.didYouMeanTranslated = metadata.translatedInput;
+				responseChat.didYouMeanTranslated = metadata.translatedInput;
 			}
 			
 			$scope.chats.push(responseChat);

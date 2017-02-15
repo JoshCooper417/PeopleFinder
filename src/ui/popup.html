@@ -34,7 +34,7 @@
 				<td>
 			   <div ng-class="{'chat-from-bot': chat.is_bot, 'chat-from-me': !chat.is_bot, 'action-chat': chat.action}">
 				   <div ng-if="chat.didYouMeanTranslated">
-				      אני מניח שהתכוונת ל <b>{{chat.didYouMeanTranslated}}</b> 😉
+				      אני מניח שהתכוונת ל<b>{{chat.didYouMeanTranslated}}</b> 😉
 				   </div>
 				   <div class="actual-message" ng-if="chat.message">{{chat.message}}</div>
 				   <div class="persons-wrapper">
