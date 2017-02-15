@@ -143,6 +143,8 @@ namespace WebAPI.Models
 		
 		private string _WhatIDo;
 		
+		private System.Nullable<System.DateTime> _EndOfService;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -199,6 +201,8 @@ namespace WebAPI.Models
     partial void OnHomeTelephoneChanged();
     partial void OnWhatIDoChanging(string value);
     partial void OnWhatIDoChanged();
+    partial void OnEndOfServiceChanging(System.Nullable<System.DateTime> value);
+    partial void OnEndOfServiceChanged();
     #endregion
 		
 		public Person()
@@ -722,6 +726,26 @@ namespace WebAPI.Models
 					this._WhatIDo = value;
 					this.SendPropertyChanged("WhatIDo");
 					this.OnWhatIDoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndOfService")]
+		public System.Nullable<System.DateTime> EndOfService
+		{
+			get
+			{
+				return this._EndOfService;
+			}
+			set
+			{
+				if ((this._EndOfService != value))
+				{
+					this.OnEndOfServiceChanging(value);
+					this.SendPropertyChanging();
+					this._EndOfService = value;
+					this.SendPropertyChanged("EndOfService");
+					this.OnEndOfServiceChanged();
 				}
 			}
 		}

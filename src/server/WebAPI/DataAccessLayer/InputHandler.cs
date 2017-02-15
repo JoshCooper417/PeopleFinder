@@ -59,7 +59,7 @@ namespace WebAPI.DataAccessLayer
         {
             // Post process the selected entities; adjusting and renaming some fields.
             var personJsonsFromDb = DbReader.GetPersonsFromDb(dbRequest)
-                .Select(person => new PersonJsonWrapper(person))
+                .Select(person => new PersonJsonWrapper(person, templateToUse.getLookupField()))
                 .ToList();
 
             var processedPersonJsons = templateToUse.ProcessPersonJsons(personJsonsFromDb);

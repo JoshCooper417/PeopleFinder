@@ -6,10 +6,9 @@ using System.Web;
 
 namespace WebAPI.DataAccessLayer
 {
-    public class WhatIsTemplate : ITemplate
+    public class TillWhenTemplate : ITemplate
     {
-        private static string key1Lookup = "מה ";
-        private static Regex key2Lookup = new Regex(" של ");
+        private static string key1Lookup = "עד מתי ";
 
         private string lookupField; // E.g., מספר
         private string lookupValue; // E.g., מספר
@@ -26,28 +25,30 @@ namespace WebAPI.DataAccessLayer
 
         public Regex MatchingRegex()
         {
-            return new Regex(@"מה .* של .+");
+            return new Regex(@"עד מתי .+");
         }
 
         public DbRequest MakeDbRequest(string input, bool shouldShowAll)
         {
-            // input comes in as "מה המספר של עומר"
-
+            // input comes in as "עד מתי שמעון"
+            // Now input is "שמעון"
             input = input.Replace(key1Lookup, "");
-            // Now input is "מספר של עומר"
 
-            var inputSplitOnKey2 = key2Lookup.Split(input, 2);
-            // inputSplitOnKey2 is ["עומר" ,"מספר" ]
-            if (inputSplitOnKey2.Length != 2)
+            lookupField = "תאריך שחרור";
+            
+            // queryParts is ["שמעון" ]
+            string[] queryParts = input.Split(' ');
+
+            // build the lookup value from all query parts except of the last one
+            string value = "";
+            for (int i = 0; i < queryParts.Length; i++)
             {
-                return null;
+                value += ' ' + queryParts[i];
             }
+            value.TrimStart(' ');
 
-            lookupField= inputSplitOnKey2[0];
+            lookupValue = value;
 
-            lookupValue = inputSplitOnKey2[1].TrimEnd('?');
-            lookupValue = inputSplitOnKey2[1].TrimEnd(' ');
-            lookupValue = inputSplitOnKey2[1].TrimStart(' ');
             var dbRequest = new DbRequest(lookupValue, shouldShowAll);
             return dbRequest.IsValid ? dbRequest : null;
         }
@@ -61,6 +62,5 @@ namespace WebAPI.DataAccessLayer
         {
             return lookupValue;
         }
-
     }
 }

@@ -15,6 +15,10 @@ namespace WebAPI.DataAccessLayer
 
         List<PersonJsonWrapper> ProcessPersonJsons(List<PersonJsonWrapper> personJsons);
 
+        string getLookupField();
+        string getLookupValue();
+
+
         string MetdataDisplayValue();
     }
 }
