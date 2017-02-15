@@ -11,13 +11,10 @@ namespace WebAPI.DataAccessLayer
         {
             return new List<ITemplate> {
                 new WhatIsTemplate(),
-<<<<<<< HEAD
                 new WhereIsTemplate(),
                 new WhenTemplate(),
                 new TillWhenTemplate(),
-=======
                 new ActionToTemplate(),
->>>>>>> origin/master
                 new ParamsOnlyTemplate()
             };
         }

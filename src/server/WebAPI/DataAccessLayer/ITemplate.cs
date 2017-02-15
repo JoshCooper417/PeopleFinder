@@ -14,17 +14,9 @@ namespace WebAPI.DataAccessLayer
         DbRequest MakeDbRequest(string input, bool shouldShowAll);
 
         List<PersonJsonWrapper> ProcessPersonJsons(List<PersonJsonWrapper> personJsons);
-
-<<<<<<< HEAD
         string getLookupField();
         string getLookupValue();
 
-
-        string MetdataDisplayValue();
-=======
-        //string MetdataDisplayValue();
-
         object AddMetadata();
->>>>>>> origin/master
     }
 }

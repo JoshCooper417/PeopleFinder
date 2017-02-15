@@ -38,9 +38,8 @@ namespace WebAPI.DataAccessLayer
 
             // try to find a relevant lookup field based on the last query parts
             List<string> fields = null;
-            bool isFound = false;
             int fieldIndex = queryParts.Length - 1;
-            for (int i = queryParts.Length - 1; i > 0 && !isFound; i--)
+            for (int i = queryParts.Length - 1; i > 0; i--)
             {
                 fields = FieldsAliases.getJsonFields(queryParts[i]);
 
@@ -51,7 +50,6 @@ namespace WebAPI.DataAccessLayer
                        fields[0] == FieldsAliases.END_OF_SERVICE)
                     {
                         lookupField = queryParts[i];
-                        isFound = true;
                         fieldIndex = i;
                     }
                 }
@@ -83,9 +81,12 @@ namespace WebAPI.DataAccessLayer
             return personJsons;
         }
 
-        public string MetdataDisplayValue()
+        public object AddMetadata()
         {
-            return lookupValue;
+            return new
+            {
+                query = lookupValue
+            };
         }
     }
 }

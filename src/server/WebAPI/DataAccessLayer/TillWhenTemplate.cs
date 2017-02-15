@@ -58,9 +58,12 @@ namespace WebAPI.DataAccessLayer
             return personJsons;
         }
 
-        public string MetdataDisplayValue()
+        public object AddMetadata()
         {
-            return lookupValue;
+            return new
+            {
+                query = lookupValue
+            };
         }
     }
 }

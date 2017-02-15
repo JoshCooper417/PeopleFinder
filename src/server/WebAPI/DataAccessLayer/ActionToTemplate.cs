@@ -11,7 +11,18 @@ namespace WebAPI.DataAccessLayer
         // חייג אל
         private static string[] noiseWordsLookup = new string[2] { "חייג", "אל"};
 
-        private string lookupValue { get; set; }
+        private string lookupValue;
+        private string lookupField;
+
+        public string getLookupValue()
+        {
+            return lookupValue;
+        }
+
+        public string getLookupField()
+        {
+            return lookupField;
+        }
 
         public DbRequest MakeDbRequest(string input, bool shouldShowAll)
         {
@@ -44,5 +55,6 @@ namespace WebAPI.DataAccessLayer
         {
             return personJsons;
         }
+
     }
 }

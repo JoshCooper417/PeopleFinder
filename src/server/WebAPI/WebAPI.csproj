@@ -126,8 +126,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="DataAccessLayer\ActionToTemplate.cs" />
     <Compile Include="DataAccessLayer\AdminTagAdder.cs" />
     <Compile Include="DataAccessLayer\AlertGenerator.cs" />
+    <Compile Include="DataAccessLayer\BotMessageHandler.cs" />
     <Compile Include="DataAccessLayer\InitialMetadataGenerator.cs" />
     <Compile Include="DataAccessLayer\CurrentMisparIshi.cs" />
     <Compile Include="DataAccessLayer\DbReader.cs" />
