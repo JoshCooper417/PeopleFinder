@@ -485,7 +485,7 @@ angular.module("phoneLocator").controller("menuPopupCtrl", function($scope) {
         chrome.tabs.create({ url: skypeUrl, active: false }, function (tab) {
             setTimeout(function() {
                 chrome.tabs.remove(tab.id);
-            }, 500);
+            }, 100);
         });
      };
 	 
@@ -496,7 +496,7 @@ angular.module("phoneLocator").controller("menuPopupCtrl", function($scope) {
         chrome.tabs.create({ url: skypeUrl, active: false }, function (tab) {
             setTimeout(function() {
                 chrome.tabs.remove(tab.id);
-            }, 500);
+            }, 100);
         });
      };
 });

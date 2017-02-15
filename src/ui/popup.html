@@ -78,7 +78,7 @@
 												 <td ng-repeat="field in person.top_row" class="top-row">
 													<md-input-container style="padding-bottom: 0;">
 													   <label>{{field.name}}</label>
-													   <input ng-model="field.value" readonly />
+													   <input title="{{field.value}}"ng-model="field.value" readonly />
 													</md-input-container>
 												 </td>
 											  </tr>
